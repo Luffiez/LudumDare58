@@ -3,6 +3,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
+
+    [SerializeField]
+    float moveForce;
+    [SerializeField]
+    float maxVelocity;
+
     [SerializeField]
     PlayerInput playerInput;
 
@@ -11,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     InputAction movementAction;
 
     Vector2 movementInput = Vector2.zero;
+
+
+    [SerializeField]
+    Rigidbody2D rigidbody2D;
 
 
  
@@ -28,14 +38,13 @@ public class PlayerMovement : MonoBehaviour
         movementAction = actionMap.FindAction("Move");
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector2 movement = movementAction.ReadValue<Vector2>();
         Debug.Log(movement);
-        GetComponent<Rigidbody2D>().AddForce(movement * 10.0f);
-        
+        rigidbody2D.AddForce(movement * moveForce);
     }
+
 
 
     void OnDestroy()
