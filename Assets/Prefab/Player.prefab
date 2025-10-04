@@ -378,8 +378,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   playerInput: {fileID: 7182857085897796411}
-  shootHitboxParent: {fileID: 3452627200817707284}
-  shootHitbox: {fileID: 8568366871642592075}
+  suckHitboxParent: {fileID: 3452627200817707284}
+  suckHitbox: {fileID: 8568366871642592075}
+  ghostLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  ghostAndWallLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8657211059815006398
 GameObject:
   m_ObjectHideFlags: 0
