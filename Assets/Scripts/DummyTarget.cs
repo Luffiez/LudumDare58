@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DummyTarget : MonoBehaviour
 {
+    [SerializeField] private bool sucking = false;  
     public enum DummyState 
     {
         Idle,
@@ -12,7 +13,6 @@ public class DummyTarget : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-            State = State == DummyState.Idle ? DummyState.Sucking : DummyState.Idle;
+       State = sucking ? DummyState.Sucking : DummyState.Idle;
     }
 }

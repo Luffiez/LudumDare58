@@ -17,7 +17,7 @@ public class GhostFlee : IGhostState
             return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
         Vector3 direction = (behaviour.transform.position - behaviour.Target.position).normalized;
-        GhostExtensions.Move(behaviour, behaviour.transform.position - direction, behaviour.FleeSpeed * Time.deltaTime);
+        GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed * Time.deltaTime);
 
         return this;
     }
