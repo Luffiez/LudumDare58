@@ -10,7 +10,7 @@ public class GhostIdle : IGhostState
 
     IGhostState IGhostState.Run(GhostBehaviour behaviour)
     {
-        if (GhostExtensions.IsPlayerInRange(behaviour))
+        if (GhostExtensions.IsPlayerInView(behaviour))
             return GhostStateManager.GetStateOfType(typeof(GhostChase));
         return this;
     }
