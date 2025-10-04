@@ -41,8 +41,12 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 movement = movementAction.ReadValue<Vector2>();
-        Debug.Log(movement);
-        rigidbody2D.AddForce(movement * moveForce);
+        if (movement != Vector2.zero)
+        {
+            movement = movement.normalized; 
+            rigidbody2D.AddForce(movement * moveForce);
+        }
+     
     }
 
 
