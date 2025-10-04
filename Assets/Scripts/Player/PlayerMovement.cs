@@ -1,58 +1,38 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float moveForce;
+    [SerializeField] private float maxVelocity;
+    
+    private PlayerInput playerInput;
+    private Rigidbody2D rb;
 
-    [SerializeField]
-    float moveForce;
-    [SerializeField]
-    float maxVelocity;
+    private InputActionMap actionMap;
+    private InputAction movementAction;
 
-    [SerializeField]
-    PlayerInput playerInput;
+    private Vector2 movementInput;
 
-    InputActionMap actionMap;
-
-    InputAction movementAction;
-
-    Vector2 movementInput = Vector2.zero;
-
-
-    [SerializeField]
-    Rigidbody2D rigidbody2D;
-
-
- 
-
-
-    void Awake()
-    {
-
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
+        rb = GetComponent<Rigidbody2D>();
         actionMap = playerInput.actions.FindActionMap("Player");
         movementAction = actionMap.FindAction("Move");
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        Vector2 movement = movementAction.ReadValue<Vector2>();
-        if (movement != Vector2.zero)
-        {
-            movement = movement.normalized; 
-            rigidbody2D.AddForce(movement * moveForce);
-        }
-     
+        movementInput = movementAction.ReadValue<Vector2>();
     }
 
-
-
-    void OnDestroy()
+    void FixedUpdate()
     {
-        
+        if (movementInput != Vector2.zero)
+        {
+            movementInput = movementInput.normalized; 
+            rb.AddForce(movementInput * moveForce);
+        }
     }
 }

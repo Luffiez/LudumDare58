@@ -5,7 +5,7 @@ public class GhostChase : IGhostState
 {
     void IGhostState.OnStateEnter(GhostBehaviour behaviour)
     {
-        behaviour.UpdateAnimatorState("Chase");
+        behaviour.PlayAnimation("Chase");
     }
 
     void IGhostState.OnStateExit(GhostBehaviour behaviour)
@@ -17,7 +17,7 @@ public class GhostChase : IGhostState
         if (!GhostExtensions.IsTargetInRange(behaviour))
             return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
-        if(behaviour.Target.GetComponent<DummyTarget>()?.State == DummyTarget.DummyState.Sucking)
+        if(behaviour.IsAttacked())
             return GhostStateManager.GetStateOfType(typeof(GhostFlee));
 
         GhostExtensions.Move(behaviour, behaviour.Target.position, behaviour.ChaseSpeed);

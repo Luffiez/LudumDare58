@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class GhostExtensions
 {
-    private static LayerMask playerLayer = LayerMask.NameToLayer("Player");
+    public static HashSet<GhostBehaviour> GhostsBeingAttacked = new();
+    static int boundsLayer = 6;
+
     public static bool IsTargetInRange(this GhostBehaviour behaviour)
     {
         float distanceToPlayer = Vector2.Distance(behaviour.transform.position, behaviour.Target.position);
@@ -32,4 +35,13 @@ public static class GhostExtensions
     {
         behaviour.RigidBody.AddForce(direction * speed * Time.deltaTime);
     }
+
+    public static bool WillHitWall(GhostBehaviour behaviour, Vector2 direction)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, direction, behaviour.WallDistanceCheck, boundsLayer);
+        return hit.collider != null;
+    }
+
+    public static bool IsAttacked(this GhostBehaviour behaviour) => 
+        GhostsBeingAttacked.Contains(behaviour);
 }

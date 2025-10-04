@@ -2,7 +2,7 @@ public class GhostDie : IGhostState
 {
     void IGhostState.OnStateEnter(GhostBehaviour behaviour)
     {
-        behaviour.UpdateAnimatorState("Die");
+        behaviour.PlayAnimation("Die");
     }
 
     void IGhostState.OnStateExit(GhostBehaviour behaviour)

@@ -1,6 +1,4 @@
 using System;
-using UnityEngine;
-
 public static class  GhostStateManager
 {
     public static IGhostState[] States = new IGhostState[5]
@@ -30,7 +28,6 @@ public static class  GhostStateManager
         {
             currentState.OnStateExit(behaviour);
             nextState.OnStateEnter(behaviour);
-            Debug.Log($"{behaviour.name} changed state: {currentState} -> {nextState}");
         }
         behaviour.UpdateState(nextState);
     }

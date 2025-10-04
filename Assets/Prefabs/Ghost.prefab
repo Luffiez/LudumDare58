@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8259155411447461536}
   - component: {fileID: 8142091557616934470}
   - component: {fileID: 4579090642159092004}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 2397557516316101317}
   - component: {fileID: 8076537638681170155}
   - component: {fileID: 7479682008692753910}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Suck particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4951,9 +4951,10 @@ GameObject:
   - component: {fileID: 3645623538268450982}
   - component: {fileID: 5873141501579720757}
   - component: {fileID: 8052978356930152156}
-  m_Layer: 0
+  - component: {fileID: 1389687941860302824}
+  m_Layer: 7
   m_Name: Ghost
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4991,6 +4992,8 @@ MonoBehaviour:
   chaseSpeedModifier: 1.5
   fleeSpeedModifier: 1.25
   playerDetectionRange: 6
+  suctionModifier: 1
+  suckParticles: {fileID: 8076537638681170155}
 --- !u!50 &5873141501579720757
 Rigidbody2D:
   serializedVersion: 5
@@ -5040,6 +5043,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &1389687941860302824
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3459088618074107074}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.3
 --- !u!1 &7989154875976397487
 GameObject:
   m_ObjectHideFlags: 0
@@ -5049,7 +5088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6349084008001141239}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}

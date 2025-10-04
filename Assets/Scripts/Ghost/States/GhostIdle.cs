@@ -10,7 +10,7 @@ public class GhostIdle : IGhostState
 
     void IGhostState.OnStateEnter(GhostBehaviour behaviour)
     {
-        behaviour.UpdateAnimatorState("Idle");
+        behaviour.PlayAnimation("Idle");
         idleTime = Random.Range(minIdleTime, maxIdleTime);
     }
 

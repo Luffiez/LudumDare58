@@ -5,11 +5,13 @@ public class GhostFlee : IGhostState
 {
     void IGhostState.OnStateEnter(GhostBehaviour behaviour)
     {
-        behaviour.UpdateAnimatorState("Flee");
+        behaviour.PlayAnimation("Flee");
+        behaviour.PlaySuctionParticles();
     }
 
     void IGhostState.OnStateExit(GhostBehaviour behaviour)
     {
+        behaviour.StopSuctionParticles();
     }
 
     IGhostState IGhostState.Run(GhostBehaviour behaviour)
@@ -18,7 +20,9 @@ public class GhostFlee : IGhostState
             return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
         Vector3 direction = (behaviour.transform.position - behaviour.Target.position).normalized;
-        GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed);
+
+        if (!GhostExtensions.WillHitWall(behaviour, direction))
+            GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed);
 
         return this;
     }

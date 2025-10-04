@@ -1,122 +1,132 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+
 public class PlayerAttack : MonoBehaviour
 {
+    const string GHOST_TAG = "Ghost";    
 
-    const string ghostTag = "Ghost";
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private GameObject suckHitboxParent;
+    [SerializeField] private Collider2D suckHitbox;
+    [SerializeField] private LayerMask ghostLayerMask;
+    [SerializeField] private LayerMask obstacleLayerMask;
+    [SerializeField] private float attackForce = 500f;
+    [SerializeField] private float attackRate = 0.5f;
 
-    [SerializeField]
-    PlayerInput playerInput;
+    private InputActionMap actionMap;
+    private InputAction attackDirectionAction;
 
-    InputActionMap actionMap;
+    ContactFilter2D ghostFilter;
+    List<Collider2D> overlapedColliders = new();
 
-    InputAction attackDirectionAction;
+    private Vector2 attackDirectionInput;
+    private float attackTimer = 0f;
 
-
-    [SerializeField]
-    GameObject suckHitboxParent;
-
-    [SerializeField]
-    Collider2D suckHitbox;
-
-    [SerializeField]
-    LayerMask ghostLayerMask;
-
-    [SerializeField]
-    LayerMask ghostAndWallLayerMask;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         actionMap = playerInput.actions.FindActionMap("Player");
         attackDirectionAction = actionMap.FindAction("AttackDirection");
+        ghostFilter = new ContactFilter2D() { 
+            layerMask = ghostLayerMask,
+            useTriggers = true,
+            useLayerMask = true
+        };
+    }
+
+    private void Update()
+    {
+        attackDirectionInput = attackDirectionAction.ReadValue<Vector2>();
+        suckHitboxParent.gameObject.SetActive(attackDirectionInput != Vector2.zero);
+
+        if(attackTimer < attackRate)
+            attackTimer += Time.deltaTime;
     }
 
 
     void FixedUpdate()
     {
-        Vector2 attackDirection = attackDirectionAction.ReadValue<Vector2>();
-        if (attackDirection != Vector2.zero)
-        {
-            Debug.Log(attackDirection);
+        if(GhostExtensions.GhostsBeingAttacked.Count > 0)
+            GhostExtensions.GhostsBeingAttacked.Clear();
 
-            Quaternion parentRotation = suckHitboxParent.transform.rotation;
-
-            #region  set attack hitbox rotation
-
-            if (attackDirection.x > 0.5f && attackDirection.y > 0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 135.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.x > 0.5f && attackDirection.y < -0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 45.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.x < -0.5f && attackDirection.y > 0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 225.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.x < -0.5f && attackDirection.y < -0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 315.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.x > 0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 90.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.x < -0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 270.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.y > 0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 180.0f * Mathf.Deg2Rad));
-            }
-            else if (attackDirection.y < -0.5f)
-            {
-                suckHitboxParent.transform.rotation = quaternion.Euler(new float3(parentRotation.x, parentRotation.y, 0.0f * Mathf.Deg2Rad));
-            }
-
-            #endregion
-            List<Collider2D> overlapedColliders = new List<Collider2D>();
-
-            ContactFilter2D ghostFilter = new ContactFilter2D();
-            ghostFilter.layerMask = ghostLayerMask;
-            int hits = Physics2D.OverlapCollider(suckHitbox, ghostFilter,overlapedColliders);
-            if (hits > 0)
-            {
-                ContactFilter2D ghostAndWallFilter = new ContactFilter2D();
-                ghostAndWallFilter.layerMask = ghostAndWallLayerMask;
-                Vector2 playerPosition = transform.position;
-                foreach (Collider2D overlapedCollider in overlapedColliders)
-                {
-                    Vector2 enemyPosition = overlapedCollider.transform.position;
-                    Vector2 enemyPlayerDelta = playerPosition - enemyPosition;
-                    RaycastHit2D raycastHit2D = Physics2D.Raycast(playerPosition, enemyPlayerDelta.normalized, enemyPlayerDelta.magnitude);
-                    if (raycastHit2D)
-                    {
-                        bool isGhost = raycastHit2D.collider.gameObject.CompareTag(ghostTag);
-                        if (isGhost)
-                        { 
-                            //attack here
-                        }
-                    }
-
-                }
-            }
-        }
-        // 
+        if (!suckHitboxParent.gameObject.activeSelf)
+            return;
+        
+        SetHitboxRotation(attackDirectionInput, suckHitboxParent.transform.rotation);
+        GetOverlappingGhosts();
+        TryAttack();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GetOverlappingGhosts()
     {
+        overlapedColliders.Clear();
+        Physics2D.OverlapCollider(suckHitbox, ghostFilter, overlapedColliders);
+    }
+
+    private void TryAttack()
+    {
+        if(overlapedColliders.Count == 0)
+            return;
+        if (attackTimer < attackRate)
+            return;
         
+        attackTimer = 0;
+
+        Vector2 playerPosition = transform.position;
+        for (int i = overlapedColliders.Count - 1; i >= 0; i--)
+        {
+            Collider2D target = overlapedColliders[i];
+            Vector2 targetPosition = target.transform.position;
+            Vector2 targetPlayerDelta = playerPosition - targetPosition;
+            RaycastHit2D hit = Physics2D.Raycast(playerPosition, targetPlayerDelta.normalized, targetPlayerDelta.magnitude, obstacleLayerMask);
+
+            // If there's an obstacle between player and ghost, skip this ghost
+            if (hit)
+                continue;
+
+            if (!target.gameObject.TryGetComponent(out GhostBehaviour ghostBehaviour))
+                continue;
+
+            ghostBehaviour.GetSuckedTowards(transform.position, attackForce);
+            GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
+        }
+    }
+
+    // Directions for snapping the attack direction to 8 directions
+    readonly Vector2[] directions = new Vector2[]
+    {
+        new(1, 0),    // East
+        new(1, 1),    // NorthEast
+        new(0, 1),    // North
+        new(-1, 1),   // NorthWest
+        new(-1, 0),   // West
+        new(-1, -1),  // SouthWest
+        new(0, -1),   // South
+        new(1, -1)    // SouthEast
+    };
+
+    private void SetHitboxRotation(Vector2 attackDirection, Quaternion parentRotation)
+    {
+        if (attackDirection == Vector2.zero)
+            return;
+
+        // Find the closest direction
+        Vector2 snapped = directions[0];
+        float maxDot = Vector2.Dot(attackDirection.normalized, directions[0].normalized);
+        for (int i = 1; i < directions.Length; i++)
+        {
+            float dot = Vector2.Dot(attackDirection.normalized, directions[i].normalized);
+            if (dot > maxDot)
+            {
+                maxDot = dot;
+                snapped = directions[i];
+            }
+        }
+
+        // Calculate angle in degrees
+        float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;
+        suckHitboxParent.transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 }
