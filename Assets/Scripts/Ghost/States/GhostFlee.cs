@@ -14,7 +14,7 @@ public class GhostFlee : IGhostState
 
     IGhostState IGhostState.Run(GhostBehaviour behaviour)
     {
-        if(!GhostExtensions.IsPlayerInRange(behaviour))
+        if(!GhostExtensions.IsTargetInRange(behaviour))
             return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
         Vector3 direction = (behaviour.transform.position - behaviour.Target.position).normalized;

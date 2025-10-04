@@ -2,17 +2,24 @@ using UnityEngine;
 
 public static class GhostExtensions
 {
-    public static bool IsPlayerInRange(this GhostBehaviour behaviour)
+    private static LayerMask playerLayer = LayerMask.NameToLayer("Player");
+    public static bool IsTargetInRange(this GhostBehaviour behaviour)
     {
         float distanceToPlayer = Vector2.Distance(behaviour.transform.position, behaviour.Target.position);
         return distanceToPlayer <= behaviour.detectionRange;
     }
 
-    public static bool IsPlayerInView(this GhostBehaviour behaviour)
+    public static bool IsTargetInView(this GhostBehaviour behaviour)
     {
         Vector2 directionToPlayer = (behaviour.Target.position - behaviour.transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, directionToPlayer, behaviour.detectionRange * 0.9f);
-        return hit.collider != null && hit.collider.CompareTag("Player");
+        RaycastHit2D[] hits = Physics2D.RaycastAll(behaviour.transform.position, directionToPlayer, behaviour.detectionRange);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider.CompareTag("Player"))
+                return true;
+        }
+        return false;
     }
 
     internal static void Move(GhostBehaviour behaviour, Vector3 position, float speed)

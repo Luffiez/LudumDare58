@@ -14,7 +14,7 @@ public class GhostChase : IGhostState
 
     IGhostState IGhostState.Run(GhostBehaviour behaviour)
     {
-        if (!GhostExtensions.IsPlayerInRange(behaviour))
+        if (!GhostExtensions.IsTargetInRange(behaviour))
             return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
         if(behaviour.Target.GetComponent<DummyTarget>()?.State == DummyTarget.DummyState.Sucking)

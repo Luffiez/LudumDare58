@@ -28,7 +28,7 @@ public class GhostWander : IGhostState
 
     IGhostState IGhostState.Run(GhostBehaviour behaviour)
     {
-        if (GhostExtensions.IsPlayerInView(behaviour))
+        if (GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
             return GhostStateManager.GetStateOfType(typeof(GhostChase));
 
         timeSinceLastChange += Time.deltaTime;
