@@ -14,9 +14,11 @@ public static class  GhostStateManager
 
     public static IGhostState GetStateOfType(Type state)
     {
-        foreach(IGhostState s in States)
-            if(s.GetType() == state)
-                return s;
+        // Create a new instance of the requested state type
+        // Not performant, but reusing instances leads to randomness issues
+        // Could be optimized by settings upp states per ghost in start
+        if (typeof(IGhostState).IsAssignableFrom(state))
+            return Activator.CreateInstance(state) as IGhostState;
         return default;
     }
 

@@ -22,11 +22,17 @@ public class GhostBehaviour : MonoBehaviour
     public float detectionRange => playerDetectionRange;
 
     private Rigidbody2D rigidBody;
+    private Animator animator;
 
 
-    internal void UpdateState(IGhostState newState)
+    internal void UpdateState(IGhostState state)
     {
-        State = newState;
+        State = state;
+    }
+
+    internal void UpdateAnimatorState(string stateName)
+    {
+        animator.Play(stateName);
     }
 
     private void OnEnable()
@@ -43,6 +49,7 @@ public class GhostBehaviour : MonoBehaviour
     {
         Target = GameObject.FindGameObjectWithTag("Player").transform;
         rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void OnDrawGizmosSelected()

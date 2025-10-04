@@ -11,13 +11,18 @@ public static class GhostExtensions
     public static bool IsPlayerInView(this GhostBehaviour behaviour)
     {
         Vector2 directionToPlayer = (behaviour.Target.position - behaviour.transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, directionToPlayer, behaviour.detectionRange);
+        RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, directionToPlayer, behaviour.detectionRange * 0.9f);
         return hit.collider != null && hit.collider.CompareTag("Player");
     }
 
     internal static void Move(GhostBehaviour behaviour, Vector3 position, float speed)
     {
         Vector2 direction = (position - behaviour.transform.position).normalized;
-        behaviour.RigidBody.AddForce(direction * speed);
+        Move(behaviour, direction, speed);
+    }
+
+    internal static void Move(GhostBehaviour behaviour, Vector2 direction, float speed)
+    {
+        behaviour.RigidBody.AddForce(direction * speed * Time.deltaTime);
     }
 }
