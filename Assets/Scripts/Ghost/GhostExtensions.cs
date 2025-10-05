@@ -1,4 +1,3 @@
-using Assets.Scripts.Ghost;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +6,6 @@ namespace Assets.Scripts.Ghost
     public static class GhostExtensions
     {
         public static HashSet<GhostBehaviour> GhostsBeingAttacked = new();
-        static int boundsLayer = 6;
-
         public static bool IsTargetInRange(this GhostBehaviour behaviour)
         {
             float distanceToPlayer = Vector2.Distance(behaviour.transform.position, behaviour.Target.position);
