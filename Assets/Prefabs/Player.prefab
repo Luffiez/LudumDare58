@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 5381027921203885811}
   - component: {fileID: 8604023305712598396}
   - component: {fileID: 9147721537291028540}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 5724021806760080726}
   - component: {fileID: 1939263941776128234}
   - component: {fileID: 8568366871642592075}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SuckHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +577,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2459098471269122929}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SuckParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,11 +613,11 @@ GameObject:
   - component: {fileID: 1039942121448038389}
   - component: {fileID: 4544925060205041888}
   - component: {fileID: 1335543156265566434}
+  - component: {fileID: 2474309002299873465}
   - component: {fileID: 2539921013497334024}
   - component: {fileID: 2122831935344946121}
   - component: {fileID: 1409576605300292271}
   - component: {fileID: 7182857085897796411}
-  - component: {fileID: 2474309002299873465}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -687,6 +687,24 @@ MonoBehaviour:
     m_Bits: 256
   fullCanvas: {fileID: 7338022066017917606}
   playerMovement: {fileID: 4544925060205041888}
+--- !u!114 &2474309002299873465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214489584687191358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c9b30744b57457d8a362d193aba108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  maxHealth: 5
+  PlayerMovement: {fileID: 4544925060205041888}
+  PlayerAttack: {fileID: 1335543156265566434}
+  PlayerSprite: {fileID: 4432221083412398121}
+  PlayerColorChanger: {fileID: 2055282362124035502}
+  HitInvincibletime: 2
 --- !u!50 &2539921013497334024
 Rigidbody2D:
   serializedVersion: 5
@@ -824,24 +842,6 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &2474309002299873465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4214489584687191358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c9b30744b57457d8a362d193aba108, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  StartHealth: 5
-  PlayerMovement: {fileID: 4544925060205041888}
-  PlayerAttack: {fileID: 1335543156265566434}
-  PlayerSprite: {fileID: 4432221083412398121}
-  PlayerColorChanger: {fileID: 2055282362124035502}
-  HitInvincibletime: 2
 --- !u!1 &5421120259888058279
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 5795890663273944197}
   - component: {fileID: 2813615977654796910}
   - component: {fileID: 4297236771823642526}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: NoisePattern
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1049,7 +1049,7 @@ GameObject:
   - component: {fileID: 4818008184795290184}
   - component: {fileID: 4240278556526068991}
   - component: {fileID: 4360008405324342985}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: WawePattern
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -46,7 +46,6 @@ namespace Assets.Scripts.Ghost
 
             if (GhostExtensions.WillHitWall(behaviour, GhostExtensions.GetDirectionToTarget(behaviour)))
             {
-                Debug.Log("Will hit wall!");
                 return this;
             }
             Vector3 direction = GhostExtensions.GetDirectionFromTarget(behaviour);

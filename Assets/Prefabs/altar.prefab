@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 973113453006176356}
   - component: {fileID: 8690347969862726418}
   - component: {fileID: 1255862657933822871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Activation Ring Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 2637632605043249080}
   - component: {fileID: 2215348258341500903}
   - component: {fileID: 1934014328883743140}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: altar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,8 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477f5674c1f3e1244ae6b571ee889f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  interval: 0.5
+  interval: 0.33
   percentage: 0.33
+  baseAmount: 0
   ps: {fileID: 5888991263559746549}
 --- !u!95 &1934014328883743140
 Animator:
@@ -255,7 +256,7 @@ GameObject:
   - component: {fileID: 3941164108879964228}
   - component: {fileID: 5888991263559746549}
   - component: {fileID: 7299619753638653080}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Suck particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5092,7 +5093,7 @@ GameObject:
   - component: {fileID: 7072945053836996421}
   - component: {fileID: 8573592685236986454}
   - component: {fileID: 8596103519661752944}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

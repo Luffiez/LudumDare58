@@ -1,12 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-
-
     const string GHOST_TAG = "Ghost";
 
-    [SerializeField] int StartHealth;
+    [SerializeField] int maxHealth;
 
     [SerializeField] PlayerMovement PlayerMovement;
 
@@ -17,17 +16,15 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] float HitInvincibletime;
     float HitInvincibletimer;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
 
-    bool Dead;
+    bool isDead;
+    int currentHealth;
 
-    float OpacityStartValue;
-
-    int CurrentHealth;
-
-    void Start()
+    void Awake()
     {
-        CurrentHealth = StartHealth;
-        OpacityStartValue = PlayerSprite.color.a;
+        currentHealth = maxHealth;
         HitInvincibletimer = HitInvincibletime;
         PlayerColorChanger.enabled = false; 
     }
@@ -36,48 +33,43 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        if (Dead  || HitInvincibletimer >= HitInvincibletime) return;
+        if (isDead  || HitInvincibletimer >= HitInvincibletime) return;
 
         HitInvincibletimer += Time.deltaTime;
         if (HitInvincibletimer < HitInvincibletime)
         { 
             PlayerColorChanger.enabled = false;
         }
-
-
-
     }
 
-
-    void OnTriggerEnter(Collider other)
+    public void TakeDamage(int damage = 1)
     {
-        if (other.gameObject.CompareTag(GHOST_TAG))
-        {
-            Damage();
-
-        }
-    }
-
-
-    public void Damage()
-    {
-        if (CurrentHealth < 0)
+        if (currentHealth < 0)
             return;
 
-        CurrentHealth--;
+        currentHealth-= damage;
 
-        if (CurrentHealth <= 0)
+        if (currentHealth <= 0)
         {
             PlayerMovement.enabled = false;
             PlayerAttack.enabled = false;
             PlayerSprite.flipY = true;
             PlayerColorChanger.enabled = false;
             //call 
+            // more death effects?
+            SoundManager.Instance.PlaySfx(SoundManager.Instance.DieClip);
+            Invoke("Restart", 3f);
         }
         else
         {
+            SoundManager.Instance.PlaySfx(SoundManager.Instance.DamageClip);
             HitInvincibletimer = 0;
             PlayerColorChanger.enabled = true;
         }
+    }
+
+    void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

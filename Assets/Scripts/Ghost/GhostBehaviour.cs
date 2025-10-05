@@ -127,5 +127,15 @@ namespace Assets.Scripts.Ghost
             if (suckParticles.isPlaying)
                 suckParticles.Stop();
         }
+
+        PlayerHealth health; // Cache it for each ghost
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                if(health || other.TryGetComponent(out health))
+                    health.TakeDamage();
+            } 
+        }
     }
 }

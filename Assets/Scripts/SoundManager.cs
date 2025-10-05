@@ -7,6 +7,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource sfx;
     [SerializeField] AudioClip ghostHitClip;
     [SerializeField] AudioClip scoreClip;
+    [SerializeField] AudioClip damageClip;
+    [SerializeField] AudioClip dieClip;
 
     [Header("Fade Sfx")]
     [SerializeField] FadeOutSfx beam;
@@ -14,6 +16,8 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip GhostHitClip => ghostHitClip;
     public AudioClip ScoreClip => scoreClip;
+    public AudioClip DamageClip => damageClip;
+    public AudioClip DieClip => dieClip;
 
     private void Awake()
     {
