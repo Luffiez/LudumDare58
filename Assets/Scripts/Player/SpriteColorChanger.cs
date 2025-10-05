@@ -1,37 +1,22 @@
-using System;
 using UnityEngine;
 
-public class SpriteColorChanger : MonoBehaviour
+public partial class SpriteColorChanger : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField]
-    SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     [SerializeField] private bool UseMaterial;
 
-
-    [Serializable]
-    class ColorChanger
-    {
-        public float MaxDiff;
-        public float TimeOfffset;
-        public float Speed;
-    }
-
-    [SerializeField]
-    ColorChanger RedChanger;
-    [SerializeField]
-    ColorChanger GreenChanger;
-    [SerializeField]
-    ColorChanger BlueChanger;
-
-    [SerializeField]
-    ColorChanger OpacityChanger;
+    [SerializeField] ColorChanger RedChanger;
+    [SerializeField] ColorChanger GreenChanger;
+    [SerializeField] ColorChanger BlueChanger;
+    [SerializeField] ColorChanger OpacityChanger;
 
     float redStartValue = 0f;
     float greenStartValue = 0f;
     float blueStartValue = 0f;
     float opacityStartValue = 0f;
+
     void Start()
     {
         redStartValue = spriteRenderer.color.r;
@@ -41,9 +26,8 @@ public class SpriteColorChanger : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-
         if (UseMaterial)
         {
             spriteRenderer.material.SetColor("_BaseColor", new Color(GetNewColorValue(RedChanger, redStartValue),
@@ -59,16 +43,12 @@ public class SpriteColorChanger : MonoBehaviour
             GetNewColorValue(BlueChanger, blueStartValue),
             GetNewColorValue(OpacityChanger, opacityStartValue));
         }
-
-  
-
     }
 
     float GetNewColorValue(ColorChanger colorChanger, float startValue)
     {
         return startValue + (Mathf.Sin(Time.time * colorChanger.Speed + colorChanger.TimeOfffset) * colorChanger.MaxDiff);
     }
-
 
     void OnDisable()
     {
@@ -81,5 +61,4 @@ public class SpriteColorChanger : MonoBehaviour
             spriteRenderer.color = new Color(redStartValue, greenStartValue, blueStartValue, opacityStartValue);
         }
     }
-
 }

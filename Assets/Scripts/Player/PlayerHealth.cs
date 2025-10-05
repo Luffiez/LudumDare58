@@ -1,16 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-1)]
 public class PlayerHealth : MonoBehaviour
 {
-    const string GHOST_TAG = "Ghost";
-
     [SerializeField] int maxHealth;
-
     [SerializeField] PlayerMovement PlayerMovement;
-
     [SerializeField] PlayerAttack PlayerAttack;
-
     [SerializeField] SpriteRenderer PlayerSprite;
     [SerializeField] SpriteColorChanger PlayerColorChanger;
 
@@ -29,8 +25,6 @@ public class PlayerHealth : MonoBehaviour
         PlayerColorChanger.enabled = false; 
     }
 
-
-
     void Update()
     {
         if (isDead  || HitInvincibletimer >= HitInvincibletime) return;
@@ -44,7 +38,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage = 1)
     {
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
             return;
 
         currentHealth-= damage;

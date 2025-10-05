@@ -1192,29 +1192,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2031197262437676088, guid: 40a66762218934e1f838416743cadba6, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2393304455923006227, guid: 40a66762218934e1f838416743cadba6, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452627200817707284, guid: 40a66762218934e1f838416743cadba6, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4214489584687191358, guid: 40a66762218934e1f838416743cadba6, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5421120259888058279, guid: 40a66762218934e1f838416743cadba6, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6286282939339677849, guid: 40a66762218934e1f838416743cadba6, type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1441,6 +1421,22 @@ PrefabInstance:
     - target: {fileID: 671263223108113399, guid: bc4ccf9d78b0e904db7f1ce988e8f16f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 972292428284151740, guid: bc4ccf9d78b0e904db7f1ce988e8f16f, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 972292428284151740, guid: bc4ccf9d78b0e904db7f1ce988e8f16f, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 972292428284151740, guid: bc4ccf9d78b0e904db7f1ce988e8f16f, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 972292428284151740, guid: bc4ccf9d78b0e904db7f1ce988e8f16f, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 3069629426588566696, guid: bc4ccf9d78b0e904db7f1ce988e8f16f, type: 3}
       propertyPath: playerHealth
