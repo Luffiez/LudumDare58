@@ -10,6 +10,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackRate = 0.5f;
     [SerializeField] private int attackDamage = 1;
 
+    [SerializeField]
+    SpriteRenderer playerSprite;
+
+    [SerializeField]
+    SpriteRenderer WeaponSprite;
+
     [Header("References")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private GameObject suckHitboxParent;
@@ -135,8 +141,18 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
+
+        if (snapped.y < 0)
+        {
+            WeaponSprite.sortingOrder = playerSprite.sortingOrder + 1;
+        }
+        else
+        { 
+             WeaponSprite.sortingOrder = playerSprite.sortingOrder - 1;
+        }
+
         // Calculate angle in degrees
-        float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;
+            float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;
         suckHitboxParent.transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 }
