@@ -1,4 +1,3 @@
-using System.Drawing;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -6,14 +5,15 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance = null;
 
     [SerializeField] AudioSource sfx;
-    [SerializeField] AudioSource beamSfx;
-
     [SerializeField] AudioClip ghostHitClip;
+    [SerializeField] AudioClip scoreClip;
+
+    [Header("Fade Sfx")]
+    [SerializeField] FadeOutSfx beam;
+    [SerializeField] FadeOutSfx altar;
 
     public AudioClip GhostHitClip => ghostHitClip;
-
-    bool fadeOutBeam = false;
-    float beamStartVolume;
+    public AudioClip ScoreClip => scoreClip;
 
     private void Awake()
     {
@@ -22,7 +22,6 @@ public class SoundManager : MonoBehaviour
         else
             Instance = this;
 
-        beamStartVolume = beamSfx.volume;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -40,30 +39,15 @@ public class SoundManager : MonoBehaviour
             sfx.pitch = pitch;
     }
 
-    public void PlayBeamSfx()
-    {
-        beamSfx.volume = beamStartVolume;
-        beamSfx.Play();
-        fadeOutBeam = false;
-    }
+    public void PlayBeamSfx() => beam.Play();
+    public void StopBeamSfx() => beam.Stop();
 
-    public void StopBeamSfx() =>
-        fadeOutBeam = true;
+    public void PlayAltarSfx() => altar.Play();
+    public void StopAltarSfx() => altar.Stop();
 
     private void Update()
     {
-        if (fadeOutBeam)
-        {
-            if (beamSfx.volume == 0)
-            {
-                fadeOutBeam = false;
-                beamSfx.Stop();
-            }
-            else
-            {
-                beamSfx.volume -= Time.deltaTime;
-            }
-        }
+        altar.Update();
+        beam.Update();
     }
-
 }

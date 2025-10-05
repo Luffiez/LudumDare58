@@ -4991,12 +4991,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   baseSpeed: 50
-  chaseSpeedModifier: 2
+  chaseSpeedModifier: 4
   fleeSpeedModifier: 3
-  playerDetectionRange: 10
+  playerDetectionRange: 12
   suctionModifier: 0.3
   wallDistanceCheck: 2
-  maxHealth: 100
+  maxHealth: 50
   scoreValue: 10
   boundsLayer:
     serializedVersion: 2

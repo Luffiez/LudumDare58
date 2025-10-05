@@ -1,5 +1,4 @@
 using Assets.Scripts.Ghost;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,11 +12,9 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackRate = 0.5f;
     [SerializeField] private int attackDamage = 1;
 
-    [SerializeField]
-    SpriteRenderer playerSprite;
-
-    [SerializeField]
-    SpriteRenderer WeaponSprite;
+    [SerializeField] SpriteRenderer playerSprite;
+    [SerializeField] SpriteRenderer WeaponSprite;
+    [SerializeField] SpriteRenderer WeaponSpriteIdle;
 
     [Header("References")]
     [SerializeField] private PlayerInput playerInput;
@@ -25,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Collider2D suckHitbox;
     [SerializeField] private LayerMask ghostLayerMask;
     [SerializeField] private LayerMask obstacleLayerMask;
+    [SerializeField] private GameObject fullCanvas;
 
     [SerializeField] private PlayerMovement playerMovement;
 
@@ -54,16 +52,30 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         attackDirectionInput = attackDirectionAction.ReadValue<Vector2>();
-        bool previousState = suckHitboxParent.gameObject.activeSelf;
-        bool newState = attackDirectionInput != Vector2.zero;
-        suckHitboxParent.gameObject.SetActive(newState);
 
-        if (previousState != newState)
+        bool previousState = suckHitboxParent.gameObject.activeSelf;
+        bool nextStateActive = attackDirectionInput != Vector2.zero;
+        fullCanvas.SetActive(false);
+        if (nextStateActive && GameManager.Instance.IsAtMaxCapacity())
         {
-            if (newState)
+            suckHitboxParent.gameObject.SetActive(false);
+            fullCanvas.SetActive(true);
+            return;
+        }
+
+        if (previousState != nextStateActive)
+        {
+            if (nextStateActive)
+            {
+                WeaponSpriteIdle.enabled = false;
                 SoundManager.Instance.PlayBeamSfx();
+            }
             else
+            {
+                WeaponSpriteIdle.enabled = true;
                 SoundManager.Instance.StopBeamSfx();
+            }
+            suckHitboxParent.gameObject.SetActive(nextStateActive);
         }
 
         playerMovement.Attacking = attackDirectionInput != Vector2.zero;
@@ -121,11 +133,11 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack(GhostBehaviour ghostBehaviour)
     {
+        GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
         float distance = Vector2.Distance(transform.position, ghostBehaviour.transform.position);
         float lenght = suckHitbox.bounds.size.magnitude;
         float percentage = Mathf.Clamp01(1 - (distance / lenght));
         ghostBehaviour.TakeDamage(transform.position, attackForce, Mathf.RoundToInt(attackDamage * percentage));
-        GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
     }
 
     // Directions for snapping the attack direction to 8 directions
@@ -160,14 +172,14 @@ public class PlayerAttack : MonoBehaviour
         }
 
 
-        if (snapped.y < 0)
-        {
-            WeaponSprite.sortingOrder = playerSprite.sortingOrder + 1;
-        }
-        else
-        {
-            WeaponSprite.sortingOrder = playerSprite.sortingOrder - 1;
-        }
+        //if (snapped.y < 0)
+        //{
+        //    WeaponSprite.sortingOrder = playerSprite.sortingOrder + 1;
+        //}
+        //else
+        //{
+        //    WeaponSprite.sortingOrder = playerSprite.sortingOrder - 1;
+        //}
 
         // Calculate angle in degrees
         float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;

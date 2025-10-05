@@ -22,6 +22,12 @@ namespace Assets.Scripts.Ghost
             if (behaviour.IsAttacked())
                 return new GhostFlee();
 
+            if (GhostExtensions.WillHitWall(behaviour, GhostExtensions.GetDirectionToTarget(behaviour)))
+            {
+                GhostExtensions.Move(behaviour, behaviour.Target.position, -behaviour.ChaseSpeed);
+                return this;
+            }
+
             GhostExtensions.Move(behaviour, behaviour.Target.position, behaviour.ChaseSpeed);
 
             return this;

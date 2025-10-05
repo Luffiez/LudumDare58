@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] PlayerAttack PlayerAttack;
 
     [SerializeField] SpriteRenderer PlayerSprite;
-    [SerializeField] WeaponColorChanger PlayerColorChanger;
+    [SerializeField] SpriteColorChanger PlayerColorChanger;
 
     [SerializeField] float HitInvincibletime;
     float HitInvincibletimer;

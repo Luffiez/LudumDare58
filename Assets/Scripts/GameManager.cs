@@ -4,10 +4,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
 
+    [SerializeField] float minCapacity = 10f;
+    [SerializeField] float capacityModifier = 0.25f;
+
     public float Timer { get; private set; }
     public float Score { get; private set; }
 
-    public float PendingScore { get; private set; }
+    public int PendingScore => Mathf.FloorToInt(pendingScore);
+
+    private float pendingScore;
 
     private void Awake()
     {
@@ -22,12 +27,29 @@ public class GameManager : MonoBehaviour
         Timer += Time.deltaTime;
     }
 
-    public void AddScore(float score) =>
+    public void AddScore(float score)
+    {
         Score += score;
+        pendingScore -= score;
+        if (pendingScore <= 0)
+            pendingScore = 0;
+    }
 
-    public void AddPendingScore(float pendingScore) =>
-        PendingScore += pendingScore;
+    public void AddPendingScore(float score)
+    {
+        if(!IsAtMaxCapacity())
+            pendingScore += score;
+    }
 
-    public void DecreasePendingScore(float amount) =>
-        PendingScore = Mathf.Clamp(PendingScore -= amount, 0, Mathf.Infinity);
+    public int GetMaxCapacity() =>
+        Mathf.FloorToInt(minCapacity + Score * capacityModifier);
+
+    public float GetCurrentCapacityPercentage() =>
+        PendingScore / (float)GetMaxCapacity();
+
+    public bool IsAtMaxCapacity()
+    {
+        float per = GetCurrentCapacityPercentage();
+        return per >= 1f;
+    }
 }

@@ -6,6 +6,7 @@ public class Altar : MonoBehaviour
 {
     [SerializeField] float interval;
     [SerializeField] float percentage;
+    [SerializeField] int baseAmount;
     [SerializeField] ParticleSystem ps;
 
     float timer = 0;
@@ -47,11 +48,10 @@ public class Altar : MonoBehaviour
         if (!playerInside)
             return;
 
-        if (GameManager.Instance.PendingScore <= 0 || !playerAttack || playerAttack.Attacking)
+        if (GameManager.Instance.PendingScore < 1 || !playerAttack || playerAttack.Attacking)
         {
             if (playing)
                 StopPlaying();
-
             return;
         }
 
@@ -60,10 +60,10 @@ public class Altar : MonoBehaviour
 
         if (timer >= interval)
         {
-            float percAmount = Mathf.Clamp(GameManager.Instance.PendingScore * percentage, 1, GameManager.Instance.PendingScore);
+            float percAmount = Mathf.Clamp(GameManager.Instance.GetMaxCapacity() * percentage, baseAmount, GameManager.Instance.PendingScore);
             int amount = Mathf.RoundToInt(percAmount);
             GameManager.Instance.AddScore(amount);
-            GameManager.Instance.DecreasePendingScore(amount);
+            SoundManager.Instance.PlaySfx(SoundManager.Instance.ScoreClip);
 
             timer = 0;
         }
@@ -76,6 +76,7 @@ public class Altar : MonoBehaviour
         playing = true;
         anim.Play("Active");
         ps.Play();
+        SoundManager.Instance.PlayAltarSfx();
     }
 
     private void StopPlaying()
@@ -83,5 +84,6 @@ public class Altar : MonoBehaviour
         playing = false;
         anim.Play("Idle");
         ps.Stop();
+        SoundManager.Instance.StopAltarSfx();
     }
 }
