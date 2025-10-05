@@ -429,7 +429,7 @@ MonoBehaviour:
     m_Bits: 128
   obstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   playerMovement: {fileID: 4544925060205041888}
 --- !u!50 &2539921013497334024
 Rigidbody2D:

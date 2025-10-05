@@ -37,6 +37,7 @@ namespace Assets.Scripts.Ghost
                     return GhostStateManager.GetStateOfType(typeof(GhostChase));
                 else
                 {
+                    behaviour.StopSuctionParticles();
                     ghostChaseTimer += Time.deltaTime;
                     speedModifier = 1.5f;
                 }
