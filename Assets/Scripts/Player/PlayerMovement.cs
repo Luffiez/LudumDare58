@@ -5,13 +5,14 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveForce;
     [SerializeField] private float maxVelocity;
+    [SerializeField] private float attackMoveForce;
+
+    public bool Attacking { get; set; } = false;
     
     private PlayerInput playerInput;
     private Rigidbody2D rb;
-
     private InputActionMap actionMap;
     private InputAction movementAction;
-
     private Vector2 movementInput;
 
     void Start()
@@ -31,8 +32,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (movementInput != Vector2.zero)
         {
-            movementInput = movementInput.normalized; 
-            rb.AddForce(movementInput * moveForce);
+            movementInput = movementInput.normalized;
+            if (Attacking)
+            {
+                rb.AddForce(movementInput * attackMoveForce);
+            }
+            else
+            { 
+                rb.AddForce(movementInput * moveForce);
+            }
         }
     }
 }
