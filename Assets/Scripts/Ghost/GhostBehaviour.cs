@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Ghost
@@ -14,6 +13,7 @@ namespace Assets.Scripts.Ghost
         [SerializeField] private float suctionModifier = 1f;
         [SerializeField] private float wallDistanceCheck = 1.5f;
         [SerializeField] private int maxHealth = 10;
+        [SerializeField] private int scoreValue;
         [SerializeField] private LayerMask boundsLayer;
 
         [Header("References")]

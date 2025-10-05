@@ -9,7 +9,11 @@ namespace Assets.Scripts.Ghost
         [SerializeField] private GameObject ghostPrefab;
         [SerializeField] private Collider2D spawnArea;
 
+        [SerializeField] private int increasePerWave;
+        [SerializeField] private float waveInterval;
+
         List<GameObject> ghosts = new();
+        int rounds = 1;
 
         private void Start()
         {
@@ -33,6 +37,17 @@ namespace Assets.Scripts.Ghost
             else if (ghosts.Count < maxGhosts)
             {
                 SpawnGhost();
+            }
+
+            UpdateSpawnTimerProgress();
+        }
+
+        private void UpdateSpawnTimerProgress()
+        {
+            if (GameManager.Instance.Timer > rounds * waveInterval)
+            {
+                rounds++;
+                maxGhosts += increasePerWave;
             }
         }
 
