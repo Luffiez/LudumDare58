@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 2122831935344946121}
   - component: {fileID: 1409576605300292271}
   - component: {fileID: 7182857085897796411}
+  - component: {fileID: 2474309002299873465}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -568,6 +569,24 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &2474309002299873465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214489584687191358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c9b30744b57457d8a362d193aba108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  StartHealth: 5
+  PlayerMovement: {fileID: 4544925060205041888}
+  PlayerAttack: {fileID: 1335543156265566434}
+  PlayerSprite: {fileID: 4432221083412398121}
+  PlayerColorChanger: {fileID: 2055282362124035502}
+  HitInvincibletime: 2
 --- !u!1 &5421120259888058279
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponColorChanger
   spriteRenderer: {fileID: 4334392152568220326}
+  UseMaterial: 1
   RedChanger:
     MaxDiff: 0.5
     TimeOfffset: 45
@@ -938,6 +958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponColorChanger
   spriteRenderer: {fileID: 7711097063635079293}
+  UseMaterial: 1
   RedChanger:
     MaxDiff: 0.5
     TimeOfffset: 45
@@ -964,6 +985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6625048359936115223}
   - component: {fileID: 4432221083412398121}
+  - component: {fileID: 2055282362124035502}
   m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
@@ -1044,3 +1066,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2055282362124035502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8657211059815006398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14634919d86ba4bafad0a7af88fc8feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponColorChanger
+  spriteRenderer: {fileID: 4432221083412398121}
+  UseMaterial: 0
+  RedChanger:
+    MaxDiff: 0
+    TimeOfffset: 0
+    Speed: 0
+  GreenChanger:
+    MaxDiff: 0
+    TimeOfffset: 0
+    Speed: 0
+  BlueChanger:
+    MaxDiff: 0
+    TimeOfffset: 0
+    Speed: 0
+  OpacityChanger:
+    MaxDiff: 0.1
+    TimeOfffset: 0
+    Speed: 5
