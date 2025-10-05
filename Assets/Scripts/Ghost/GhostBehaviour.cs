@@ -10,11 +10,11 @@ namespace Assets.Scripts.Ghost
         [SerializeField] private float baseSpeed = 3.0f;
         [SerializeField] private float chaseSpeedModifier = 1.5f;
         [SerializeField] private float fleeSpeedModifier = 1.25f;
-        [SerializeField] private float fleeBurstStrength = 50f;
         [SerializeField] private float playerDetectionRange = 3;
         [SerializeField] private float suctionModifier = 1f;
         [SerializeField] private float wallDistanceCheck = 1.5f;
         [SerializeField] private int maxHealth = 10;
+        [SerializeField] private LayerMask boundsLayer;
 
         [Header("References")]
         [SerializeField] private ParticleSystem suckParticles;
@@ -26,6 +26,7 @@ namespace Assets.Scripts.Ghost
     
         public IGhostState State { get; private set; } = GhostStateManager.States[0];
         public Rigidbody2D RigidBody => rigidBody;
+        public LayerMask BoundsLayer => boundsLayer;
         public float Speed => GetModifiedBaseSpeed();
 
         private float GetModifiedBaseSpeed() => 
@@ -82,12 +83,6 @@ namespace Assets.Scripts.Ghost
 
             Vector2 direction = (position - (Vector2)transform.position).normalized;
             rigidBody.AddForce(force * suctionModifier * Time.deltaTime * direction);
-        }
-
-     
-        internal void MoveBurst(Vector2 direction)
-        {
-            rigidBody.AddForce(fleeBurstStrength * Time.deltaTime * direction, ForceMode2D.Impulse);
         }
 
         Color spriteColor = new Color(1f, 1f, 1f, 1f);

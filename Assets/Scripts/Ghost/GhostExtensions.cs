@@ -36,7 +36,8 @@ namespace Assets.Scripts.Ghost
 
         public static bool WillHitWall(GhostBehaviour behaviour, Vector2 direction)
         {
-            RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, direction, behaviour.WallDistanceCheck, boundsLayer);
+            RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, direction.normalized, behaviour.WallDistanceCheck, behaviour.BoundsLayer);
+            Debug.DrawLine(behaviour.transform.position, (Vector2)behaviour.transform.position + direction.normalized * behaviour.WallDistanceCheck, hit.collider != null ? Color.red : Color.white);
             return hit.collider != null;
         }
 

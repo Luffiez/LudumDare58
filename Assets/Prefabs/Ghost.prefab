@@ -4998,6 +4998,9 @@ MonoBehaviour:
   suctionModifier: 0.3
   wallDistanceCheck: 2
   maxHealth: 100
+  boundsLayer:
+    serializedVersion: 2
+    m_Bits: 64
   suckParticles: {fileID: 8076537638681170155}
   spriteRenderer: {fileID: 8142091557616934470}
 --- !u!50 &5873141501579720757

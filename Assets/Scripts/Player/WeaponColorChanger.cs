@@ -41,10 +41,10 @@ public class WeaponColorChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spriteRenderer.color = new Color(GetNewColorValue(RedChanger, redStartValue),
+        spriteRenderer.material.SetColor("_BaseColor", new Color(GetNewColorValue(RedChanger, redStartValue),
         GetNewColorValue(GreenChanger, greenStartValue),
         GetNewColorValue(BlueChanger, blueStartValue),
-        GetNewColorValue(OpacityChanger, opacityStartValue));
+        GetNewColorValue(OpacityChanger, opacityStartValue)));
 
        
     }

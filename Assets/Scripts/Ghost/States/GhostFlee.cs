@@ -12,7 +12,6 @@ namespace Assets.Scripts.Ghost
             behaviour.PlayAnimation("Flee");
             behaviour.PlaySuctionParticles();
             ghostChaseTimer = 0;
-            //behaviour.MoveBurst(GhostExtensions.GetDirectionFromTarget(behaviour));
         }
 
         void IGhostState.OnStateExit(GhostBehaviour behaviour)
@@ -22,7 +21,7 @@ namespace Assets.Scripts.Ghost
 
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
-             if (!GhostExtensions.IsTargetInRange(behaviour))
+            if (!GhostExtensions.IsTargetInRange(behaviour))
                 return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
             float speedModifier = 1;
@@ -44,11 +43,14 @@ namespace Assets.Scripts.Ghost
             }
 
 
-            if (!GhostExtensions.WillHitWall(behaviour, GhostExtensions.GetDirectionToTarget(behaviour)))
+            if (GhostExtensions.WillHitWall(behaviour, GhostExtensions.GetDirectionToTarget(behaviour)))
             {
-                Vector3 direction = GhostExtensions.GetDirectionFromTarget(behaviour);
-                GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed * speedModifier);
+                Debug.Log("Will hit wall!");
+                return this;
             }
+            Vector3 direction = GhostExtensions.GetDirectionFromTarget(behaviour);
+            GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed * speedModifier);
+
 
             return this;
         }
