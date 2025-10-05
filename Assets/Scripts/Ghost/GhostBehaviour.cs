@@ -27,7 +27,7 @@ namespace Assets.Scripts.Ghost
         public Rigidbody2D RigidBody => rigidBody;
         public float Speed => baseSpeed;
         public float ChaseSpeed => baseSpeed * chaseSpeedModifier;
-        public float FleeSpeed => baseSpeed * fleeSpeedModifier;
+        public float FleeSpeed => baseSpeed * -fleeSpeedModifier;
         public float detectionRange => playerDetectionRange;
         public float WallDistanceCheck => wallDistanceCheck;
 
@@ -53,8 +53,11 @@ namespace Assets.Scripts.Ghost
             currentHealth = maxHealth;
         }
 
-        internal void UpdateState(IGhostState state) => 
+        internal void UpdateState(IGhostState state)
+        {
             State = state;
+            Debug.Log(State);
+        }
 
         internal void PlayAnimation(string stateName) => 
             animator.Play(stateName);

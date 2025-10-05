@@ -10,7 +10,7 @@ namespace Assets.Scripts.Ghost
             behaviour.PlayAnimation("Flee");
             behaviour.PlaySuctionParticles();
 
-            behaviour.MoveBurst(-GhostExtensions.GetDirectionToTarget(behaviour));
+            behaviour.MoveBurst(GhostExtensions.GetDirectionFromTarget(behaviour));
         }
 
         void IGhostState.OnStateExit(GhostBehaviour behaviour)
@@ -23,8 +23,7 @@ namespace Assets.Scripts.Ghost
             if (!GhostExtensions.IsTargetInRange(behaviour))
                 return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
-            Vector3 direction = -GhostExtensions.GetDirectionToTarget(behaviour);
-
+            Vector3 direction = GhostExtensions.GetDirectionFromTarget(behaviour);
             if (!GhostExtensions.WillHitWall(behaviour, direction))
                 GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed);
 

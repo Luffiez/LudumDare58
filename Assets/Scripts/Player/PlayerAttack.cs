@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    const string GHOST_TAG = "Ghost";
-
     [Header("Attack Settings")]
     [SerializeField] private float attackForce = 500f;
     [SerializeField] private float attackRate = 0.5f;
@@ -102,7 +100,6 @@ public class PlayerAttack : MonoBehaviour
         float distance = Vector2.Distance(transform.position, ghostBehaviour.transform.position);
         float lenght = suckHitbox.bounds.size.magnitude;
         float percentage = Mathf.Clamp01(1 - (distance / lenght));
-        Debug.Log($"distance to ghost: {distance}, size: {lenght}, percentage: {percentage}");
         ghostBehaviour.TakeDamage(transform.position, attackForce, Mathf.RoundToInt(attackDamage * percentage));
         GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
     }

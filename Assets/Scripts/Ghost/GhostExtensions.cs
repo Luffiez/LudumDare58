@@ -46,5 +46,8 @@ namespace Assets.Scripts.Ghost
 
         public static Vector2 GetDirectionToTarget(GhostBehaviour behaviour) =>
             (behaviour.Target.position - behaviour.transform.position).normalized;
+
+        public static Vector2 GetDirectionFromTarget(GhostBehaviour behaviour) =>
+            (behaviour.transform.position - behaviour.Target.position).normalized;
     }
 }

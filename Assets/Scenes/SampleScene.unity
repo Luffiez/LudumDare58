@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2af44ecbef80b42864b171cc7129ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  maxGhosts: 30
+  maxGhosts: 1
   ghostPrefab: {fileID: 3459088618074107074, guid: 701296489d583fd4fa855cad14f29387, type: 3}
   spawnArea: {fileID: 1397391421}
 --- !u!4 &353166408
