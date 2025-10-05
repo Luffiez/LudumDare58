@@ -104,7 +104,7 @@ public class PlayerAttack : MonoBehaviour
     private void Attack(GhostBehaviour ghostBehaviour)
     {
         float distance = Vector2.Distance(transform.position, ghostBehaviour.transform.position);
-        float lenght = suckHitbox.bounds.size.magnitude;
+        float lenght = suckHitbox.bounds.size.magnitude * 0.8f;
         float percentage = Mathf.Clamp01(1 - (distance / lenght));
         ghostBehaviour.TakeDamage(transform.position, attackForce, Mathf.RoundToInt(attackDamage * percentage));
         GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);

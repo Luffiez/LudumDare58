@@ -11,6 +11,18 @@ namespace Assets.Scripts.Ghost
 
         List<GameObject> ghosts = new();
 
+        private void Start()
+        {
+            StateManager.Instance.OnGhostRemoved += Instance_OnGhostRemoved;
+        }
+
+        private void Instance_OnGhostRemoved(GhostBehaviour ghost)
+        {
+            // Could use pooling system instead.
+            ghosts.Remove(ghost.gameObject);
+            GameObject.Destroy(ghost.gameObject);
+        }
+
         private void Update()
         {
             if (ghosts.Count > maxGhosts)

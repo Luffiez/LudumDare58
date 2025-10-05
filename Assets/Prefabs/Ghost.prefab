@@ -29,7 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1856861924438434786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4991,12 +4991,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   baseSpeed: 50
-  chaseSpeedModifier: 1.5
-  fleeSpeedModifier: 1.25
+  chaseSpeedModifier: 2
+  fleeSpeedModifier: 3
   fleeBurstStrength: 150
-  playerDetectionRange: 6
-  suctionModifier: 1
-  wallDistanceCheck: 1.5
+  playerDetectionRange: 10
+  suctionModifier: 0.3
+  wallDistanceCheck: 2
   maxHealth: 100
   suckParticles: {fileID: 8076537638681170155}
   spriteRenderer: {fileID: 8142091557616934470}

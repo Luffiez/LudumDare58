@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Ghost
@@ -25,9 +26,13 @@ namespace Assets.Scripts.Ghost
     
         public IGhostState State { get; private set; } = GhostStateManager.States[0];
         public Rigidbody2D RigidBody => rigidBody;
-        public float Speed => baseSpeed;
-        public float ChaseSpeed => baseSpeed * chaseSpeedModifier;
-        public float FleeSpeed => baseSpeed * -fleeSpeedModifier;
+        public float Speed => GetModifiedBaseSpeed();
+
+        private float GetModifiedBaseSpeed() => 
+            baseSpeed * GetSpeedPercentage();
+
+        public float ChaseSpeed => Speed * chaseSpeedModifier;
+        public float FleeSpeed => Speed * -fleeSpeedModifier;
         public float detectionRange => playerDetectionRange;
         public float WallDistanceCheck => wallDistanceCheck;
 
@@ -56,7 +61,6 @@ namespace Assets.Scripts.Ghost
         internal void UpdateState(IGhostState state)
         {
             State = state;
-            Debug.Log(State);
         }
 
         internal void PlayAnimation(string stateName) => 
@@ -65,11 +69,14 @@ namespace Assets.Scripts.Ghost
         internal void TakeDamage(Vector2 position, float force, int amount)
         {
             currentHealth -= amount;
-            UpdateSpriteOpacity();
+
+            float percentage = GetHealthPercentage();
+            UpdateSpriteOpacity(percentage);
+            UpdateSize(percentage);
             if(currentHealth <= 0)
             {
                 StateManager.Instance.UnregisterGhost(this);
-                Destroy(gameObject);
+                gameObject.SetActive(false); 
                 return;
             }
 
@@ -77,18 +84,33 @@ namespace Assets.Scripts.Ghost
             rigidBody.AddForce(force * suctionModifier * Time.deltaTime * direction);
         }
 
+     
         internal void MoveBurst(Vector2 direction)
         {
             rigidBody.AddForce(fleeBurstStrength * Time.deltaTime * direction, ForceMode2D.Impulse);
         }
 
         Color spriteColor = new Color(1f, 1f, 1f, 1f);
-        private void UpdateSpriteOpacity()
+        private void UpdateSpriteOpacity(float percentage)
         {
-            float opacity = Mathf.Clamp01((float)currentHealth / maxHealth);
-            spriteColor.a = opacity;
+            spriteColor.a = Mathf.Lerp(0.2f, 1f, percentage);
             spriteRenderer.color = spriteColor;
         }
+
+        private void UpdateSize(float percentage)
+        {
+            float size = Mathf.Lerp(0.6f, 1f, percentage);
+            transform.localScale = Vector3.one * size;
+        }
+
+        private float GetSpeedPercentage()
+        {
+            float percentage = GetHealthPercentage();
+            return Mathf.Lerp(0.2f, 1f, percentage);
+        }
+
+        float GetHealthPercentage() =>
+             Mathf.Clamp01((float) currentHealth / maxHealth);
 
         private void OnDrawGizmosSelected()
         {

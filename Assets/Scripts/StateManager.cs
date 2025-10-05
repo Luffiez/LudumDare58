@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Ghost
@@ -10,10 +9,15 @@ namespace Assets.Scripts.Ghost
 
         List<GhostBehaviour> ghosts = new List<GhostBehaviour>();
 
+        public delegate void GhostChanged(GhostBehaviour ghost);
+        public event GhostChanged OnGhostAdded;
+        public event GhostChanged OnGhostRemoved;
+
 
         private void Awake()
         {
-             if (Instance != null && Instance != this)
+            Application.targetFrameRate = 60;
+            if (Instance != null && Instance != this)
              {
                  Destroy(this);
              }
@@ -25,13 +29,19 @@ namespace Assets.Scripts.Ghost
         public void RegisterGhost(GhostBehaviour ghost)
         {
             if (!ghosts.Contains(ghost))
+            {
                 ghosts.Add(ghost);
+                OnGhostAdded?.Invoke(ghost);
+            }
         }
 
         public void UnregisterGhost(GhostBehaviour ghost)
         {
             if (ghosts.Contains(ghost))
-                ghosts.Remove(ghost);
+            {
+                if (ghosts.Remove(ghost))
+                    OnGhostRemoved?.Invoke(ghost);
+            }
         }
 
         private void Update()

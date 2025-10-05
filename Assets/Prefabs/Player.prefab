@@ -413,9 +413,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcad99df9a0f423e81ab97f424e4874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  attackForce: 500
-  attackRate: 0.5
-  attackDamage: 10
+  attackForce: 3000
+  attackRate: 0.1
+  attackDamage: 15
   playerSprite: {fileID: 4432221083412398121}
   WeaponSprite: {fileID: 8604023305712598396}
   playerInput: {fileID: 7182857085897796411}
