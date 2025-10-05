@@ -4,7 +4,7 @@ namespace Assets.Scripts.Ghost
 {
     public class GhostFlee : IGhostState
     {
-        float ghostChaseTime = 0.5f;
+        float ghostChaseTime = 1f;
         float ghostChaseTimer;
 
         void IGhostState.OnStateEnter(GhostBehaviour behaviour)
@@ -25,6 +25,7 @@ namespace Assets.Scripts.Ghost
              if (!GhostExtensions.IsTargetInRange(behaviour))
                 return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
+            float speedModifier = 1;
             // Player in range
             if (behaviour.IsAttacked())
             {
@@ -36,13 +37,18 @@ namespace Assets.Scripts.Ghost
                 if (ghostChaseTimer >= ghostChaseTime)
                     return GhostStateManager.GetStateOfType(typeof(GhostChase));
                 else
+                {
                     ghostChaseTimer += Time.deltaTime;
+                    speedModifier = 1.5f;
+                }
             }
 
 
-            Vector3 direction = GhostExtensions.GetDirectionFromTarget(behaviour);
-           if (!GhostExtensions.WillHitWall(behaviour, direction))
-                GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed);
+            if (!GhostExtensions.WillHitWall(behaviour, GhostExtensions.GetDirectionToTarget(behaviour)))
+            {
+                Vector3 direction = GhostExtensions.GetDirectionFromTarget(behaviour);
+                GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed * speedModifier);
+            }
 
             return this;
         }
