@@ -7,6 +7,8 @@ public class WeaponColorChanger : MonoBehaviour
     [SerializeField]
     SpriteRenderer spriteRenderer;
 
+    [SerializeField] private bool UseMaterial;
+
 
     [Serializable]
     class ColorChanger
@@ -29,7 +31,7 @@ public class WeaponColorChanger : MonoBehaviour
     float redStartValue = 0f;
     float greenStartValue = 0f;
     float blueStartValue = 0f;
-      float opacityStartValue = 0f;
+    float opacityStartValue = 0f;
     void Start()
     {
         redStartValue = spriteRenderer.color.r;
@@ -41,17 +43,43 @@ public class WeaponColorChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spriteRenderer.material.SetColor("_BaseColor", new Color(GetNewColorValue(RedChanger, redStartValue),
-        GetNewColorValue(GreenChanger, greenStartValue),
-        GetNewColorValue(BlueChanger, blueStartValue),
-        GetNewColorValue(OpacityChanger, opacityStartValue)));
 
-       
+        if (UseMaterial)
+        {
+            spriteRenderer.material.SetColor("_BaseColor", new Color(GetNewColorValue(RedChanger, redStartValue),
+            GetNewColorValue(GreenChanger, greenStartValue),
+            GetNewColorValue(BlueChanger, blueStartValue),
+            GetNewColorValue(OpacityChanger, opacityStartValue)));
+
+        }
+        else
+        { 
+            spriteRenderer.color = new Color(GetNewColorValue(RedChanger, redStartValue),
+            GetNewColorValue(GreenChanger, greenStartValue),
+            GetNewColorValue(BlueChanger, blueStartValue),
+            GetNewColorValue(OpacityChanger, opacityStartValue));
+        }
+
+  
+
     }
 
     float GetNewColorValue(ColorChanger colorChanger, float startValue)
     {
-        return startValue + (Mathf.Sin(Time.time *  colorChanger.Speed + colorChanger.TimeOfffset) * colorChanger.MaxDiff);
+        return startValue + (Mathf.Sin(Time.time * colorChanger.Speed + colorChanger.TimeOfffset) * colorChanger.MaxDiff);
+    }
+
+
+    void OnDisable()
+    {
+        if (UseMaterial)
+        {
+            spriteRenderer.material.SetColor("_BaseColor", new Color(redStartValue, greenStartValue, blueStartValue, opacityStartValue));
+        }
+        else
+        {
+            spriteRenderer.color = new Color(redStartValue, greenStartValue, blueStartValue, opacityStartValue);
+        }
     }
 
 }

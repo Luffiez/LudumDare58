@@ -40,7 +40,8 @@ public class PlayerAttack : MonoBehaviour
     {
         actionMap = playerInput.actions.FindActionMap("Player");
         attackDirectionAction = actionMap.FindAction("AttackDirection");
-        ghostFilter = new ContactFilter2D() { 
+        ghostFilter = new ContactFilter2D()
+        {
             layerMask = ghostLayerMask,
             useTriggers = true,
             useLayerMask = true
@@ -52,19 +53,19 @@ public class PlayerAttack : MonoBehaviour
         attackDirectionInput = attackDirectionAction.ReadValue<Vector2>();
         suckHitboxParent.gameObject.SetActive(attackDirectionInput != Vector2.zero);
         playerMovement.Attacking = attackDirectionInput != Vector2.zero;
-        if(attackTimer < attackRate)
+        if (attackTimer < attackRate)
             attackTimer += Time.deltaTime;
     }
 
 
     void FixedUpdate()
     {
-        if(GhostExtensions.GhostsBeingAttacked.Count > 0)
+        if (GhostExtensions.GhostsBeingAttacked.Count > 0)
             GhostExtensions.GhostsBeingAttacked.Clear();
 
         if (!suckHitboxParent.gameObject.activeSelf)
             return;
-        
+
         SetHitboxRotation(attackDirectionInput, suckHitboxParent.transform.rotation);
         GetOverlappingGhosts();
         TryAttack();
@@ -78,11 +79,11 @@ public class PlayerAttack : MonoBehaviour
 
     private void TryAttack()
     {
-        if(overlapedColliders.Count == 0)
+        if (overlapedColliders.Count == 0)
             return;
         if (attackTimer < attackRate)
             return;
-        
+
         attackTimer = 0;
 
         Vector2 playerPosition = transform.position;
@@ -151,12 +152,17 @@ public class PlayerAttack : MonoBehaviour
             WeaponSprite.sortingOrder = playerSprite.sortingOrder + 1;
         }
         else
-        { 
-             WeaponSprite.sortingOrder = playerSprite.sortingOrder - 1;
+        {
+            WeaponSprite.sortingOrder = playerSprite.sortingOrder - 1;
         }
 
         // Calculate angle in degrees
-            float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;
+        float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;
         suckHitboxParent.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    void OnDisable()
+    {
+        suckHitboxParent.gameObject.SetActive(false);
     }
 }
