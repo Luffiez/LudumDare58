@@ -1,4 +1,5 @@
 using Assets.Scripts.Ghost;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +37,8 @@ public class PlayerAttack : MonoBehaviour
     private Vector2 attackDirectionInput;
     private float attackTimer = 0f;
 
+    public bool Attacking => suckHitboxParent.gameObject.activeSelf;
+
     void Start()
     {
         actionMap = playerInput.actions.FindActionMap("Player");
@@ -62,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
         if(GhostExtensions.GhostsBeingAttacked.Count > 0)
             GhostExtensions.GhostsBeingAttacked.Clear();
 
-        if (!suckHitboxParent.gameObject.activeSelf)
+        if (!Attacking)
             return;
         
         SetHitboxRotation(attackDirectionInput, suckHitboxParent.transform.rotation);
@@ -109,7 +112,6 @@ public class PlayerAttack : MonoBehaviour
         float distance = Vector2.Distance(transform.position, ghostBehaviour.transform.position);
         float lenght = suckHitbox.bounds.size.magnitude;
         float percentage = Mathf.Clamp01(1 - (distance / lenght));
-        Debug.Log($"distance to ghost: {distance}, size: {lenght}, percentage: {percentage}");
         ghostBehaviour.TakeDamage(transform.position, attackForce, Mathf.RoundToInt(attackDamage * percentage));
         GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
     }

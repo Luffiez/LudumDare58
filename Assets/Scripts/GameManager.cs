@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public float Timer { get; private set; }
     public float Score { get; private set; }
 
+    public float PendingScore { get; private set; }
+
     private void Awake()
     {
         if (Instance)
@@ -22,4 +24,10 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(float score) =>
         Score += score;
+
+    public void AddPendingScore(float pendingScore) =>
+        PendingScore += pendingScore;
+
+    public void DecreasePendingScore(float amount) =>
+        PendingScore = Mathf.Clamp(PendingScore -= amount, 0, Mathf.Infinity);
 }

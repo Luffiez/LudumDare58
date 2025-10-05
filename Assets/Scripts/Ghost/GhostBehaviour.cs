@@ -69,8 +69,12 @@ namespace Assets.Scripts.Ghost
 
         internal void TakeDamage(Vector2 position, float force, int amount)
         {
+            if (amount > currentHealth)
+                amount = currentHealth;
+
             currentHealth -= amount;
 
+            GameManager.Instance.AddPendingScore(scoreValue * ((float)amount / maxHealth));
             float percentage = GetHealthPercentage();
             UpdateSpriteOpacity(percentage);
             UpdateSize(percentage);

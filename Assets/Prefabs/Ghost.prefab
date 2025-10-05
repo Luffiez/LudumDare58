@@ -4993,11 +4993,11 @@ MonoBehaviour:
   baseSpeed: 50
   chaseSpeedModifier: 2
   fleeSpeedModifier: 3
-  fleeBurstStrength: 150
   playerDetectionRange: 10
   suctionModifier: 0.3
   wallDistanceCheck: 2
   maxHealth: 100
+  scoreValue: 10
   boundsLayer:
     serializedVersion: 2
     m_Bits: 64
