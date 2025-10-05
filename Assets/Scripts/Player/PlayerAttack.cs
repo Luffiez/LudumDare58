@@ -54,7 +54,18 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         attackDirectionInput = attackDirectionAction.ReadValue<Vector2>();
-        suckHitboxParent.gameObject.SetActive(attackDirectionInput != Vector2.zero);
+        bool previousState = suckHitboxParent.gameObject.activeSelf;
+        bool newState = attackDirectionInput != Vector2.zero;
+        suckHitboxParent.gameObject.SetActive(newState);
+
+        if (previousState != newState)
+        {
+            if (newState)
+                SoundManager.Instance.PlayBeamSfx();
+            else
+                SoundManager.Instance.StopBeamSfx();
+        }
+
         playerMovement.Attacking = attackDirectionInput != Vector2.zero;
         if (attackTimer < attackRate)
             attackTimer += Time.deltaTime;
@@ -88,7 +99,6 @@ public class PlayerAttack : MonoBehaviour
             return;
 
         attackTimer = 0;
-        SoundManager.Instance.PlaySfx(SoundManager.Instance.GhostHitClip, true);
 
         Vector2 playerPosition = transform.position;
         for (int i = overlapedColliders.Count - 1; i >= 0; i--)

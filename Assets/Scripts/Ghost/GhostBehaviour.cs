@@ -78,10 +78,9 @@ namespace Assets.Scripts.Ghost
             float percentage = GetHealthPercentage();
             UpdateSpriteOpacity(percentage);
             UpdateSize(percentage);
-            if(currentHealth <= 0)
+            if (currentHealth <= 0)
             {
-                StateManager.Instance.UnregisterGhost(this);
-                gameObject.SetActive(false); 
+                this.RunAt(new GhostDie());
                 return;
             }
 

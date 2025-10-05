@@ -17,10 +17,10 @@ namespace Assets.Scripts.Ghost
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
             if (!GhostExtensions.IsTargetInRange(behaviour))
-                return GhostStateManager.GetStateOfType(typeof(GhostIdle));
+                return new GhostIdle();
 
             if (behaviour.IsAttacked())
-                return GhostStateManager.GetStateOfType(typeof(GhostFlee));
+                return new GhostFlee();
 
             GhostExtensions.Move(behaviour, behaviour.Target.position, behaviour.ChaseSpeed);
 

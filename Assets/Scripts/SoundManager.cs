@@ -6,11 +6,14 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance = null;
 
     [SerializeField] AudioSource sfx;
-    [SerializeField] AudioSource bgm;
+    [SerializeField] AudioSource beamSfx;
 
     [SerializeField] AudioClip ghostHitClip;
 
     public AudioClip GhostHitClip => ghostHitClip;
+
+    bool fadeOutBeam = false;
+    float beamStartVolume;
 
     private void Awake()
     {
@@ -19,6 +22,7 @@ public class SoundManager : MonoBehaviour
         else
             Instance = this;
 
+        beamStartVolume = beamSfx.volume;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -35,4 +39,31 @@ public class SoundManager : MonoBehaviour
         if (modifyPitch)
             sfx.pitch = pitch;
     }
+
+    public void PlayBeamSfx()
+    {
+        beamSfx.volume = beamStartVolume;
+        beamSfx.Play();
+        fadeOutBeam = false;
+    }
+
+    public void StopBeamSfx() =>
+        fadeOutBeam = true;
+
+    private void Update()
+    {
+        if (fadeOutBeam)
+        {
+            if (beamSfx.volume == 0)
+            {
+                fadeOutBeam = false;
+                beamSfx.Stop();
+            }
+            else
+            {
+                beamSfx.volume -= Time.deltaTime;
+            }
+        }
+    }
+
 }

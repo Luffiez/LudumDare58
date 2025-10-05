@@ -23,11 +23,11 @@ namespace Assets.Scripts.Ghost
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
             if (GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
-                return GhostStateManager.GetStateOfType(typeof(GhostChase));
+                return new GhostChase();
 
             idleTimer += Time.deltaTime;
             if (idleTimer >= idleTime)
-                return GhostStateManager.GetStateOfType(typeof(GhostWander));
+                return new GhostWander();
 
             return this;
         }

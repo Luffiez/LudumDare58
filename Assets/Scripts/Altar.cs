@@ -1,13 +1,19 @@
+using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Altar : MonoBehaviour
 {
     [SerializeField] float interval;
     [SerializeField] float percentage;
+    [SerializeField] ParticleSystem ps;
 
     float timer = 0;
     bool playerInside = false;
     PlayerAttack playerAttack;
+    Animator anim;
+
+    bool playing = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,8 +22,6 @@ public class Altar : MonoBehaviour
             if (playerAttack == null)
                 collision.gameObject.TryGetComponent(out playerAttack);
             playerInside = true;    
-            // disable attack?
-            // Play certain animation?
         }
     }
 
@@ -27,8 +31,15 @@ public class Altar : MonoBehaviour
         {
             playerInside = false;
             timer = 0;
-            //enable attack?
+
+            if (playing)
+                StopPlaying();
         }
+    }
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -36,11 +47,16 @@ public class Altar : MonoBehaviour
         if (!playerInside)
             return;
 
-        if (GameManager.Instance.PendingScore <= 0)
-            return;
+        if (GameManager.Instance.PendingScore <= 0 || !playerAttack || playerAttack.Attacking)
+        {
+            if (playing)
+                StopPlaying();
 
-        if (!playerAttack || playerAttack.Attacking)
             return;
+        }
+
+        if (!playing)
+            StartPlaying();
 
         if (timer >= interval)
         {
@@ -55,4 +71,17 @@ public class Altar : MonoBehaviour
             timer += Time.deltaTime;
     }
 
+    private void StartPlaying()
+    {
+        playing = true;
+        anim.Play("Active");
+        ps.Play();
+    }
+
+    private void StopPlaying()
+    {
+        playing = false;
+        anim.Play("Idle");
+        ps.Stop();
+    }
 }

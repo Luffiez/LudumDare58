@@ -30,7 +30,7 @@ namespace Assets.Scripts.Ghost
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
             if (GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
-                return GhostStateManager.GetStateOfType(typeof(GhostChase));
+                return new GhostChase();
 
             timeSinceLastChange += Time.deltaTime;
 

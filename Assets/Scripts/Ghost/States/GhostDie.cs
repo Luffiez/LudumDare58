@@ -7,6 +7,7 @@ namespace Assets.Scripts.Ghost
         void IGhostState.OnStateEnter(GhostBehaviour behaviour)
         {
             behaviour.PlayAnimation("Die");
+            SoundManager.Instance.PlaySfx(SoundManager.Instance.GhostHitClip, true);
         }
 
         void IGhostState.OnStateExit(GhostBehaviour behaviour)
@@ -15,6 +16,7 @@ namespace Assets.Scripts.Ghost
 
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
+            behaviour.gameObject.SetActive(false);
             return this;
         }
     }

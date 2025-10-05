@@ -22,7 +22,7 @@ namespace Assets.Scripts.Ghost
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
             if (!GhostExtensions.IsTargetInRange(behaviour))
-                return GhostStateManager.GetStateOfType(typeof(GhostIdle));
+                return new GhostIdle();
 
             float speedModifier = 1;
             // Player in range
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Ghost
             else
             {
                 if (ghostChaseTimer >= ghostChaseTime)
-                    return GhostStateManager.GetStateOfType(typeof(GhostChase));
+                    return new GhostChase();
                 else
                 {
                     behaviour.StopSuctionParticles();
