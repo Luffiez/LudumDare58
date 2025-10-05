@@ -1,29 +1,36 @@
 using System;
 using UnityEngine;
 
-public class GhostFlee : IGhostState
+namespace Assets.Scripts.Ghost
 {
-    void IGhostState.OnStateEnter(GhostBehaviour behaviour)
+    public class GhostFlee : IGhostState
     {
-        behaviour.PlayAnimation("Flee");
-        behaviour.PlaySuctionParticles();
-    }
+        void IGhostState.OnStateEnter(GhostBehaviour behaviour)
+        {
+            behaviour.PlayAnimation("Flee");
+            behaviour.PlaySuctionParticles();
 
-    void IGhostState.OnStateExit(GhostBehaviour behaviour)
-    {
-        behaviour.StopSuctionParticles();
-    }
+            behaviour.MoveBurst(-GhostExtensions.GetDirectionToTarget(behaviour));
+        }
 
-    IGhostState IGhostState.Run(GhostBehaviour behaviour)
-    {
-        if(!GhostExtensions.IsTargetInRange(behaviour))
-            return GhostStateManager.GetStateOfType(typeof(GhostIdle));
+        void IGhostState.OnStateExit(GhostBehaviour behaviour)
+        {
+            behaviour.StopSuctionParticles();
+        }
 
-        Vector3 direction = (behaviour.transform.position - behaviour.Target.position).normalized;
+        IGhostState IGhostState.Run(GhostBehaviour behaviour)
+        {
+            if (!GhostExtensions.IsTargetInRange(behaviour))
+                return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
-        if (!GhostExtensions.WillHitWall(behaviour, direction))
-            GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed);
+            Vector3 direction = -GhostExtensions.GetDirectionToTarget(behaviour);
 
-        return this;
+            if (!GhostExtensions.WillHitWall(behaviour, direction))
+                GhostExtensions.Move(behaviour, behaviour.transform.position + direction, behaviour.FleeSpeed);
+
+            return this;
+        }
+
     }
 }
+

@@ -1,47 +1,50 @@
+using Assets.Scripts.Ghost;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GhostExtensions
+namespace Assets.Scripts.Ghost
 {
-    public static HashSet<GhostBehaviour> GhostsBeingAttacked = new();
-    static int boundsLayer = 6;
-
-    public static bool IsTargetInRange(this GhostBehaviour behaviour)
+    public static class GhostExtensions
     {
-        float distanceToPlayer = Vector2.Distance(behaviour.transform.position, behaviour.Target.position);
-        return distanceToPlayer <= behaviour.detectionRange;
-    }
+        public static HashSet<GhostBehaviour> GhostsBeingAttacked = new();
+        static int boundsLayer = 6;
 
-    public static bool IsTargetInView(this GhostBehaviour behaviour)
-    {
-        Vector2 directionToPlayer = (behaviour.Target.position - behaviour.transform.position).normalized;
-        RaycastHit2D[] hits = Physics2D.RaycastAll(behaviour.transform.position, directionToPlayer, behaviour.detectionRange);
-
-        foreach (var hit in hits)
+        public static bool IsTargetInRange(this GhostBehaviour behaviour)
         {
-            if (hit.collider.CompareTag("Player"))
-                return true;
+            float distanceToPlayer = Vector2.Distance(behaviour.transform.position, behaviour.Target.position);
+            return distanceToPlayer <= behaviour.detectionRange;
         }
-        return false;
-    }
 
-    internal static void Move(GhostBehaviour behaviour, Vector3 position, float speed)
-    {
-        Vector2 direction = (position - behaviour.transform.position).normalized;
-        Move(behaviour, direction, speed);
-    }
+        public static bool IsTargetInView(this GhostBehaviour behaviour)
+        {
+            Vector2 directionToPlayer = (behaviour.Target.position - behaviour.transform.position).normalized;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(behaviour.transform.position, directionToPlayer, behaviour.detectionRange);
 
-    internal static void Move(GhostBehaviour behaviour, Vector2 direction, float speed)
-    {
-        behaviour.RigidBody.AddForce(direction * speed * Time.deltaTime);
-    }
+            foreach (var hit in hits)
+            {
+                if (hit.collider.CompareTag("Player"))
+                    return true;
+            }
+            return false;
+        }
 
-    public static bool WillHitWall(GhostBehaviour behaviour, Vector2 direction)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, direction, behaviour.WallDistanceCheck, boundsLayer);
-        return hit.collider != null;
-    }
+        internal static void Move(GhostBehaviour behaviour, Vector3 position, float speed) => 
+            Move(behaviour, GetDirectionToTarget(behaviour), speed);
 
-    public static bool IsAttacked(this GhostBehaviour behaviour) => 
-        GhostsBeingAttacked.Contains(behaviour);
+        internal static void Move(GhostBehaviour behaviour, Vector2 direction, float speed) => 
+            behaviour.RigidBody.AddForce(direction * speed * Time.deltaTime);
+
+        public static bool WillHitWall(GhostBehaviour behaviour, Vector2 direction)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(behaviour.transform.position, direction, behaviour.WallDistanceCheck, boundsLayer);
+            return hit.collider != null;
+        }
+
+        public static bool IsAttacked(this GhostBehaviour behaviour) => 
+            GhostsBeingAttacked.Contains(behaviour);
+
+
+        public static Vector2 GetDirectionToTarget(GhostBehaviour behaviour) =>
+            (behaviour.Target.position - behaviour.transform.position).normalized;
+    }
 }

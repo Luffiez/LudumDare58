@@ -1,26 +1,30 @@
+using Assets.Scripts.Ghost;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    const string GHOST_TAG = "Ghost";    
+    const string GHOST_TAG = "Ghost";
 
+    [Header("Attack Settings")]
+    [SerializeField] private float attackForce = 500f;
+    [SerializeField] private float attackRate = 0.5f;
+    [SerializeField] private int attackDamage = 1;
+
+    [Header("References")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private GameObject suckHitboxParent;
     [SerializeField] private Collider2D suckHitbox;
     [SerializeField] private LayerMask ghostLayerMask;
     [SerializeField] private LayerMask obstacleLayerMask;
-    [SerializeField] private float attackForce = 500f;
-    [SerializeField] private float attackRate = 0.5f;
+  
 
     private InputActionMap actionMap;
     private InputAction attackDirectionAction;
 
-    ContactFilter2D ghostFilter;
-    List<Collider2D> overlapedColliders = new();
+    private ContactFilter2D ghostFilter;
+    private List<Collider2D> overlapedColliders = new();
 
     private Vector2 attackDirectionInput;
     private float attackTimer = 0f;
@@ -89,9 +93,18 @@ public class PlayerAttack : MonoBehaviour
             if (!target.gameObject.TryGetComponent(out GhostBehaviour ghostBehaviour))
                 continue;
 
-            ghostBehaviour.GetSuckedTowards(transform.position, attackForce);
-            GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
+            Attack(ghostBehaviour);
         }
+    }
+
+    private void Attack(GhostBehaviour ghostBehaviour)
+    {
+        float distance = Vector2.Distance(transform.position, ghostBehaviour.transform.position);
+        float lenght = suckHitbox.bounds.size.magnitude;
+        float percentage = Mathf.Clamp01(1 - (distance / lenght));
+        Debug.Log($"distance to ghost: {distance}, size: {lenght}, percentage: {percentage}");
+        ghostBehaviour.TakeDamage(transform.position, attackForce, Mathf.RoundToInt(attackDamage * percentage));
+        GhostExtensions.GhostsBeingAttacked.Add(ghostBehaviour);
     }
 
     // Directions for snapping the attack direction to 8 directions

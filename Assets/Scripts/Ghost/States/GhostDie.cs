@@ -1,16 +1,21 @@
-public class GhostDie : IGhostState
+using System;
+
+namespace Assets.Scripts.Ghost
 {
-    void IGhostState.OnStateEnter(GhostBehaviour behaviour)
+    public class GhostDie : IGhostState
     {
-        behaviour.PlayAnimation("Die");
-    }
+        void IGhostState.OnStateEnter(GhostBehaviour behaviour)
+        {
+            behaviour.PlayAnimation("Die");
+        }
 
-    void IGhostState.OnStateExit(GhostBehaviour behaviour)
-    {
-    }
+        void IGhostState.OnStateExit(GhostBehaviour behaviour)
+        {
+        }
 
-    IGhostState IGhostState.Run(GhostBehaviour behaviour)
-    {
-        return this;
+        IGhostState IGhostState.Run(GhostBehaviour behaviour)
+        {
+            return this;
+        }
     }
 }

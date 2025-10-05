@@ -1,27 +1,30 @@
 using System;
 using UnityEngine;
 
-public class GhostChase : IGhostState
+namespace Assets.Scripts.Ghost
 {
-    void IGhostState.OnStateEnter(GhostBehaviour behaviour)
+    public class GhostChase : IGhostState
     {
-        behaviour.PlayAnimation("Chase");
-    }
+        void IGhostState.OnStateEnter(GhostBehaviour behaviour)
+        {
+            behaviour.PlayAnimation("Chase");
+        }
 
-    void IGhostState.OnStateExit(GhostBehaviour behaviour)
-    {
-    }
+        void IGhostState.OnStateExit(GhostBehaviour behaviour)
+        {
+        }
 
-    IGhostState IGhostState.Run(GhostBehaviour behaviour)
-    {
-        if (!GhostExtensions.IsTargetInRange(behaviour))
-            return GhostStateManager.GetStateOfType(typeof(GhostIdle));
+        IGhostState IGhostState.Run(GhostBehaviour behaviour)
+        {
+            if (!GhostExtensions.IsTargetInRange(behaviour))
+                return GhostStateManager.GetStateOfType(typeof(GhostIdle));
 
-        if(behaviour.IsAttacked())
-            return GhostStateManager.GetStateOfType(typeof(GhostFlee));
+            if (behaviour.IsAttacked())
+                return GhostStateManager.GetStateOfType(typeof(GhostFlee));
 
-        GhostExtensions.Move(behaviour, behaviour.Target.position, behaviour.ChaseSpeed);
+            GhostExtensions.Move(behaviour, behaviour.Target.position, behaviour.ChaseSpeed);
 
-        return this;
+            return this;
+        }
     }
 }

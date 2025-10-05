@@ -1,8 +1,11 @@
-public enum GhostState
+namespace Assets.Scripts.Ghost
 {
-    Idle,
-    Wander,
-    Chase,
-    Flee,
-    Die
+    public enum GhostState
+    {
+        Idle,
+        Wander,
+        Chase,
+        Flee,
+        Die
+    }
 }
