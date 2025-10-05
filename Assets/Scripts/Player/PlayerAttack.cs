@@ -87,6 +87,7 @@ public class PlayerAttack : MonoBehaviour
             return;
         
         attackTimer = 0;
+        SoundManager.Instance.PlaySfx(SoundManager.Instance.GhostHitClip, true);
 
         Vector2 playerPosition = transform.position;
         for (int i = overlapedColliders.Count - 1; i >= 0; i--)
