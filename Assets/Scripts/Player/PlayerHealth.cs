@@ -27,10 +27,10 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        if (isDead  || HitInvincibletimer >= HitInvincibletime) return;
+        if (isDead  || HitInvincibletimer > HitInvincibletime) return;
 
         HitInvincibletimer += Time.deltaTime;
-        if (HitInvincibletimer < HitInvincibletime)
+        if (HitInvincibletimer >= HitInvincibletime)
         { 
             PlayerColorChanger.enabled = false;
         }
@@ -38,10 +38,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage = 1)
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 || HitInvincibletimer <= HitInvincibletime)
             return;
 
         currentHealth-= damage;
+        HitInvincibletimer = 0;
 
         if (currentHealth <= 0)
         {

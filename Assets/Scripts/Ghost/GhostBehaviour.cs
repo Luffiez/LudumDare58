@@ -17,6 +17,10 @@ namespace Assets.Scripts.Ghost
         [SerializeField] private LayerMask boundsLayer;
         [SerializeField] private bool canChase = true;
 
+        [SerializeField]
+        float GhostAttackTime = 1;
+        float GhostAttackTimer = 0;
+
         [Header("References")]
         [SerializeField] private ParticleSystem suckParticles;
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -30,7 +34,7 @@ namespace Assets.Scripts.Ghost
         public LayerMask BoundsLayer => boundsLayer;
         public float Speed => GetModifiedBaseSpeed();
 
-        private float GetModifiedBaseSpeed() => 
+        private float GetModifiedBaseSpeed() =>
             baseSpeed * GetSpeedPercentage();
 
         public float ChaseSpeed => Speed * chaseSpeedModifier;
@@ -63,9 +67,11 @@ namespace Assets.Scripts.Ghost
         internal void UpdateState(IGhostState state)
         {
             State = state;
+            GhostAttackTimer += Time.deltaTime;
+
         }
 
-        internal void PlayAnimation(string stateName) => 
+        internal void PlayAnimation(string stateName) =>
             animator.Play(stateName);
 
         internal void TakeDamage(Vector2 position, float force, int amount)
@@ -109,7 +115,7 @@ namespace Assets.Scripts.Ghost
         }
 
         float GetHealthPercentage() =>
-             Mathf.Clamp01((float) currentHealth / maxHealth);
+             Mathf.Clamp01((float)currentHealth / maxHealth);
 
         private void OnDrawGizmosSelected()
         {
@@ -134,9 +140,28 @@ namespace Assets.Scripts.Ghost
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                if(health || other.TryGetComponent(out health))
+                GhostAttackTimer = 0;
+                if (health || other.TryGetComponent(out health))
                     health.TakeDamage();
-            } 
+            }
         }
+
+        void OnTriggerStay2D(Collider2D collision)
+        {
+
+            if (GhostAttackTimer > GhostAttackTime)
+            {
+
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    GhostAttackTimer = 0;
+                    if (health || collision.TryGetComponent(out health))
+                        health.TakeDamage();
+                }
+            }
+
+        }
+
+
     }
 }
