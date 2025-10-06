@@ -1622,9 +1622,9 @@ MonoBehaviour:
     TimeOfffset: 0
     Speed: 0
   OpacityChanger:
-    MaxDiff: 0.1
+    MaxDiff: 1.76
     TimeOfffset: 0
-    Speed: 5
+    Speed: 28.7
 --- !u!114 &8520744772132898010
 MonoBehaviour:
   m_ObjectHideFlags: 0
