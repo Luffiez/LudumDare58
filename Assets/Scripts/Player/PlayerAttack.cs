@@ -15,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] SpriteRenderer playerSprite;
     [SerializeField] SpriteRenderer WeaponSprite;
     [SerializeField] SpriteRenderer WeaponSpriteIdle;
+    [SerializeField] float altarCheckDistance = 3f;
 
     [Header("References")]
     [SerializeField] private PlayerInput playerInput;
@@ -22,7 +23,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Collider2D suckHitbox;
     [SerializeField] private LayerMask ghostLayerMask;
     [SerializeField] private LayerMask obstacleLayerMask;
-    [SerializeField] private GameObject fullCanvas;
+    [SerializeField] private GameObject fullUI;
+    [SerializeField] private GameObject tooCloseUI;
 
     [SerializeField] private PlayerMovement playerMovement;
 
@@ -34,6 +36,10 @@ public class PlayerAttack : MonoBehaviour
 
     private Vector2 attackDirectionInput;
     private float attackTimer = 0f;
+
+    private bool nearbyAltar = false;
+
+    Altar altar;
 
     public bool Attacking => suckHitboxParent.gameObject.activeSelf;
 
@@ -47,19 +53,30 @@ public class PlayerAttack : MonoBehaviour
             useTriggers = true,
             useLayerMask = true
         };
+        altar = FindAnyObjectByType<Altar>();
     }
 
     private void Update()
     {
         attackDirectionInput = attackDirectionAction.ReadValue<Vector2>();
+        nearbyAltar = Vector2.Distance(transform.position, altar.transform.position) < altarCheckDistance;
 
         bool previousState = suckHitboxParent.gameObject.activeSelf;
         bool nextStateActive = attackDirectionInput != Vector2.zero;
-        fullCanvas.SetActive(false);
+        fullUI.SetActive(false);
+        tooCloseUI.SetActive(false);
+
+        if (nextStateActive && nearbyAltar)
+        {
+            suckHitboxParent.gameObject.SetActive(false);
+            tooCloseUI.SetActive(true);
+            return;
+        }
+
         if (nextStateActive && GameManager.Instance.IsAtMaxCapacity())
         {
             suckHitboxParent.gameObject.SetActive(false);
-            fullCanvas.SetActive(true);
+            fullUI.SetActive(true);
             return;
         }
 
@@ -170,16 +187,6 @@ public class PlayerAttack : MonoBehaviour
                 snapped = directions[i];
             }
         }
-
-
-        //if (snapped.y < 0)
-        //{
-        //    WeaponSprite.sortingOrder = playerSprite.sortingOrder + 1;
-        //}
-        //else
-        //{
-        //    WeaponSprite.sortingOrder = playerSprite.sortingOrder - 1;
-        //}
 
         // Calculate angle in degrees
         float angle = Mathf.Atan2(snapped.y, snapped.x) * Mathf.Rad2Deg + 90f;

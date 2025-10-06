@@ -113,11 +113,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2648775854521918678}
   UseMaterial: 0
   RedChanger:
-    MaxDiff: 0.2
+    MaxDiff: 0.5
     TimeOfffset: 0
     Speed: 5
   GreenChanger:
-    MaxDiff: 0.2
+    MaxDiff: 0.5
     TimeOfffset: 0
     Speed: 5
   BlueChanger:
