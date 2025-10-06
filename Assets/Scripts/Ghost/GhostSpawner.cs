@@ -1,19 +1,26 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 namespace Assets.Scripts.Ghost
 {
+
     public class GhostSpawner : MonoBehaviour
     {
         [SerializeField] private int maxGhosts = 5;
-        [SerializeField] private GameObject ghostPrefab;
-        [SerializeField] private Collider2D spawnArea;
-
-        [SerializeField] private int increasePerWave;
+        [SerializeField] private float increasePerWave;
         [SerializeField] private float waveInterval;
+        [SerializeField] private Collider2D spawnArea;
+        [SerializeField] private float spawnInterval = 0.5f;
+        [SerializeField] private float spawnIntervalDeviation = 0.15f;
+
+        [Space]
+        [SerializeField] private GhostSpawn[] prefabs;
 
         List<GameObject> ghosts = new();
         int rounds = 1;
+
+        float spawnTimer;
 
         private void Start()
         {
@@ -36,7 +43,14 @@ namespace Assets.Scripts.Ghost
             }
             else if (ghosts.Count < maxGhosts)
             {
+                if(spawnTimer >= 0)
+                {
+                    spawnTimer -= Time.deltaTime;
+                    return;
+                }
+
                 SpawnGhost();
+                spawnTimer = spawnInterval + Random.Range(-spawnIntervalDeviation, spawnIntervalDeviation);
             }
 
             UpdateSpawnTimerProgress();
@@ -47,7 +61,7 @@ namespace Assets.Scripts.Ghost
             if (GameManager.Instance.Timer > rounds * waveInterval)
             {
                 rounds++;
-                maxGhosts += increasePerWave;
+                maxGhosts = Mathf.RoundToInt(maxGhosts * increasePerWave);
             }
         }
 
@@ -57,7 +71,32 @@ namespace Assets.Scripts.Ghost
                 Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
                 Random.Range(spawnArea.bounds.min.y, spawnArea.bounds.max.y)
             );
+
+            GameObject ghostPrefab = GetWeightedRandomPrefab();
             ghosts.Add(Instantiate(ghostPrefab, position, Quaternion.identity));
+        }
+
+        private GameObject GetWeightedRandomPrefab()
+        {
+            // Weighted random selection based on Chance
+            float totalChance = 0f;
+            foreach (var spawn in prefabs)
+                totalChance += spawn.Chance;
+
+            float randomValue = Random.Range(0f, totalChance);
+            float cumulative = 0f;
+            GameObject ghostPrefab = prefabs[0].GhostPrefab;
+            foreach (var spawn in prefabs)
+            {
+                cumulative += spawn.Chance;
+                if (randomValue <= cumulative)
+                {
+                    ghostPrefab = spawn.GhostPrefab;
+                    break;
+                }
+            }
+
+            return ghostPrefab;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Ghost
         private Vector2 currentDirection = Vector2.zero;
         private System.Random instanceRandom;
         private float timeOffset;
-
+        private float idleChance = 0.1f;
 
         void IGhostState.OnStateEnter(GhostBehaviour behaviour)
         {
@@ -29,13 +29,16 @@ namespace Assets.Scripts.Ghost
 
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
-            if (GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
+            if (behaviour.CanChase && GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
                 return new GhostChase();
 
             timeSinceLastChange += Time.deltaTime;
 
             if (timeSinceLastChange >= directionChangeInterval)
             {
+                if(UnityEngine.Random.value < idleChance)
+                    return new GhostIdle();
+
                 PickNewDirection(behaviour);
                 timeSinceLastChange = 0f;
             }

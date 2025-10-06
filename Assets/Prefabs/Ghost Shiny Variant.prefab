@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6069958090170563216
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5156
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856861924438434786, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459088618074107074, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_Name
+      value: Ghost Shiny Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645623538268450982, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: canChase
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645623538268450982, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: baseSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645623538268450982, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: scoreValue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645623538268450982, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: fleeSpeedModifier
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142091557616934470, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4199893
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142091557616934470, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_Color.g
+      value: 0.71631134
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142091557616934470, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      propertyPath: m_Color.r
+      value: 0.735849
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1802209907168670170, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3978280040546533813}
+  m_SourcePrefab: {fileID: 100100000, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+--- !u!212 &2648775854521918678 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8142091557616934470, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+  m_PrefabInstance: {fileID: 6069958090170563216}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5566008122413517642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1802209907168670170, guid: 701296489d583fd4fa855cad14f29387, type: 3}
+  m_PrefabInstance: {fileID: 6069958090170563216}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3978280040546533813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5566008122413517642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14634919d86ba4bafad0a7af88fc8feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteColorChanger
+  spriteRenderer: {fileID: 2648775854521918678}
+  UseMaterial: 0
+  RedChanger:
+    MaxDiff: 0.2
+    TimeOfffset: 0
+    Speed: 5
+  GreenChanger:
+    MaxDiff: 0.2
+    TimeOfffset: 0
+    Speed: 5
+  BlueChanger:
+    MaxDiff: 0
+    TimeOfffset: 0
+    Speed: 0
+  OpacityChanger:
+    MaxDiff: 0
+    TimeOfffset: 0
+    Speed: 0

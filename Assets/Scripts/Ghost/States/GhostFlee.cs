@@ -33,7 +33,7 @@ namespace Assets.Scripts.Ghost
             }
             else
             {
-                if (ghostChaseTimer >= ghostChaseTime)
+                if (behaviour.CanChase && ghostChaseTimer >= ghostChaseTime)
                     return new GhostChase();
                 else
                 {

@@ -22,7 +22,7 @@ namespace Assets.Scripts.Ghost
 
         IGhostState IGhostState.Run(GhostBehaviour behaviour)
         {
-            if (GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
+            if (behaviour.CanChase && GhostExtensions.IsTargetInRange(behaviour) && GhostExtensions.IsTargetInView(behaviour))
                 return new GhostChase();
 
             idleTimer += Time.deltaTime;

@@ -15,6 +15,7 @@ namespace Assets.Scripts.Ghost
         [SerializeField] private int maxHealth = 10;
         [SerializeField] private int scoreValue;
         [SerializeField] private LayerMask boundsLayer;
+        [SerializeField] private bool canChase = true;
 
         [Header("References")]
         [SerializeField] private ParticleSystem suckParticles;
@@ -22,8 +23,8 @@ namespace Assets.Scripts.Ghost
 
         public Vector2 TargetPosition { get; internal set; }
         public Transform Target { get; private set; }
-    
-    
+        public bool CanChase => canChase;
+
         public IGhostState State { get; private set; } = GhostStateManager.States[0];
         public Rigidbody2D RigidBody => rigidBody;
         public LayerMask BoundsLayer => boundsLayer;
